@@ -3,7 +3,8 @@ const defaultCart = [
     id: 1,
     userId: 1,
     goodId: 1,
-    quantity: 2
+    quantity: 2,
+    createTime: '2018-01-01 00:00:00',
   }
 ];
 class CartService {

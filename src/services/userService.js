@@ -3,7 +3,10 @@ const defaultUsers = [
     id: 1,
     username: 'hyx',
     password: 'MTIz',
-    email: 'hyx@example.com'
+    email: 'hyx@example.com',
+    phone: '133',
+    address: 'hhhhhhh',
+    head: ""//头像？可以考虑做？
   }
 ];
 class UserService {
