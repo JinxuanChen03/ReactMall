@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router';
-
+import useLoginCheck from '../hook/LoginCheck';
 import { ServiceContext } from '../contexts/ServiceContext';
 
 
 const CreateOrderPage = () => {
+  useLoginCheck();
   const { goodId } = useParams();
   const services = useContext(ServiceContext);
   const navigate = useNavigate();

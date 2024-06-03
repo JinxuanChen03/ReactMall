@@ -8,11 +8,13 @@ const useLoginCheck = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(user.getCurrentUser())
     if (!isLoading && !user.isLoggedIn())
     {
       message.warning("请先登录");
       navigate("/login");
     }
+
   }, [user, navigate, isLoading]);  // 添加 isLoading 到依赖数组
 };
 

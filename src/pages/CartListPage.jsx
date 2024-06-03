@@ -1,24 +1,24 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { ServiceContext } from '../contexts/ServiceContext';
 import useLoginCheck from '../hook/LoginCheck';
-//写几个组件，分支付，未支付//要有增删改查
-const OrderListPage = () => {
+//要有改查删支付查看商品详情
+const CartListPage = () => {
   useLoginCheck();
-  const [orders, setOrders] = useState([]);
+  const [carts, setCarts] = useState([]);
   const service = useContext(ServiceContext);
   useEffect(() => {
     const currentUser = service.user.getCurrentUser(); // 获取当前用户信息
-    setOrders(service.order.getOrdersByUserId(currentUser.id));
+    setCarts(service.cart.getCartByUserId(currentUser.id));
   }, []);
 
 
   return (
     <div>
-      <h2>User Orders</h2>
+      <h2>User Carts</h2>
       <ul>
-        {orders.map(order => (
-          <li key={order.id}>
-            Order #{order.orderNo} - Status: {order.status === 1 ? 'Paid' : 'Unpaid'} - Created at: {order.createTime}
+        {carts.map(carts => (
+          <li key={carts.id}>
+            Carts #{carts.id} - good: {carts.goodId === 1 ? 'Paid' : 'Unpaid'} - quantity: {carts.quantity}
           </li>
         ))}
       </ul>
@@ -26,4 +26,4 @@ const OrderListPage = () => {
   );
 };
 
-export default OrderListPage;
+export default CartListPage;

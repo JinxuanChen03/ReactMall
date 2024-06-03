@@ -6,6 +6,7 @@ import DetailPage from "./pages/DetailPage";
 import CreateOrderPage from "./pages/CreateOrderPage";
 import PayPage from './pages/PayPage';
 import OrderListPage from "./pages/OrderListPage";
+import CartListPage from "./pages/CartListPage";
 import OrderDetailPage from "./pages/OrderDetailPage";
 import RegisterPage from "./pages/RegisterPage";
 
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "orderDetail/:orderId",
         element: <OrderDetailPage />
+      },
+      {
+        path: "cartList",
+        element: <CartListPage />
       },
     ]
   }

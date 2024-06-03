@@ -3,9 +3,7 @@ const defaultCart = [
     id: 1,
     userId: 1,
     goodId: 1,
-    quantity: 2,
-    price: 50,
-    description: "High-quality widget"
+    quantity: 2
   }
 ];
 class CartService {
@@ -16,7 +14,7 @@ class CartService {
   }
 
   // 添加商品到购物车
-  addToCart (userId, goodId, quantity, price, description) {
+  addToCart (userId, goodId, quantity) {
     const existingItem = this.cart.find(item => item.userId === userId && item.goodId === goodId);
     if (existingItem)
     {
@@ -28,9 +26,7 @@ class CartService {
         id: maxId + 1,
         userId,
         goodId,
-        quantity,
-        price,
-        description
+        quantity
       });
     }
     this._saveData();

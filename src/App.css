@@ -1,5 +1,32 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+}
+
 .App {
   text-align: center;
+  width: 480px;
+  height: 900px;
+  box-sizing: border-box;
+  margin: auto;
+  transform-origin: top;
+  background-image: url(./images/background.png);
+  background-size: 100% 100%;
+  background-repeat: repeat-y;
+  background-position-y: 0px;
+  animation: bg 10s infinite linear;
+}
+
+@keyframes bg {
+  0% {
+    background-position-y: 0px;
+  }
+
+  100% {
+    background-position-y: 700px;
+  }
 }
 
 .App-logo {
@@ -32,6 +59,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

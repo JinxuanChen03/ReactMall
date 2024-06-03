@@ -9,6 +9,8 @@ const HomePage = () => {
     <Link to="/detail/1">商品1</Link>
     <Link to="/detail/2">商品2</Link>
     <Link to="/detail/3">商品3</Link>
+    <Link to="/orderList">订单</Link>
+    <Link to="/cartList">购物车</Link>
     <p></p>
   </>
 }
