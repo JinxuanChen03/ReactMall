@@ -1,13 +1,15 @@
 import './App.css';
-import { Outlet } from 'react-router';
+import React from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 
-function App() {
+function App () {
+  const location = useLocation();
+  const hideHeader = location.pathname === '/login' || location.pathname === '/register';
+
   return (
     <div className="App">
-      <h1> APP Page</h1>
+      {!hideHeader && <h1>APP Page</h1>}
       <Outlet />
-      {/* <LoginPage /> */}
-     {/* <HomePage /> */}
     </div>
   );
 }

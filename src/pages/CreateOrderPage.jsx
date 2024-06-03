@@ -13,17 +13,19 @@ const CreateOrderPage = () => {
     // 1. 创建订单，拿到orderid
     const parsedGoodId = parseInt(goodId, 10);
     const good = services.good.getGoodById(parsedGoodId);
-    if (!good) {
+    const useId = services.user.getCurrentUser().id;
+    if (!good)
+    {
       //TBD 跳转主页
       alert('商品不存在');
       navigate('/home');
       return;
     }
-    const order = services.order.createOrder(1, parsedGoodId, good.price)
+    const order = services.order.createOrder(useId, parsedGoodId, good.price)
     // 2. 跳转到支付页面
     alert('下单成功，请支付！');
     navigate(`/pay/${order.id}`);
-    
+
   }
 
   return <>

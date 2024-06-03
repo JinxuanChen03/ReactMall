@@ -1,5 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
-
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from './App';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
@@ -8,43 +7,48 @@ import CreateOrderPage from "./pages/CreateOrderPage";
 import PayPage from './pages/PayPage';
 import OrderListPage from "./pages/OrderListPage";
 import OrderDetailPage from "./pages/OrderDetailPage";
+import RegisterPage from "./pages/RegisterPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: App,
+    element: <App />,
     children: [
       {
-        path: "/",
-        Component: HomePage,
+        index: true,
+        element: <Navigate to="/login" replace />
       },
       {
-        path: "/login",
-        Component: LoginPage,
+        path: "login",
+        element: <LoginPage />
       },
       {
-        path: "/home",
-        Component: HomePage,
+        path: "register",
+        element: <RegisterPage />
       },
       {
-        path: "/detail/:goodId",
-        Component: DetailPage,
+        path: "home",
+        element: <HomePage />
       },
       {
-        path: "/createOrder/:goodId",
-        Component: CreateOrderPage,
+        path: "detail/:goodId",
+        element: <DetailPage />
       },
       {
-        path: "/pay/:orderId",
-        Component: PayPage,
+        path: "createOrder/:goodId",
+        element: <CreateOrderPage />
       },
       {
-        path: "/orderList",
-        Component: OrderListPage,
+        path: "pay/:orderId",
+        element: <PayPage />
       },
       {
-        path: "/orderDetail/:orderId",
-        Component: OrderDetailPage,
+        path: "orderList",
+        element: <OrderListPage />
+      },
+      {
+        path: "orderDetail/:orderId",
+        element: <OrderDetailPage />
       },
     ]
   }

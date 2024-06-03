@@ -14,11 +14,11 @@ const defaultList = [
 class OrderService {
   list = [];
 
-  constructor (){
+  constructor() {
     this._loadData();
   }
 
-  createOrder(userId, goodId, price) {
+  createOrder (userId, goodId, price) {
     const orderNo = new Date().getTime();
     // 从list中找到最大值，生成新的id
     const maxId = this.list.reduce((max, item) => {
@@ -26,7 +26,7 @@ class OrderService {
     }, 0);
 
     const order = {
-      id:maxId + 1,
+      id: maxId + 1,
       userId,
       goodId,
       orderNo,
@@ -39,9 +39,10 @@ class OrderService {
     return order;
   }
 
-  payOrder(orderId) {
+  payOrder (orderId) {
     const order = this.getOrderById(orderId);
-    if (!order) {
+    if (!order)
+    {
       return false;
     }
 
@@ -51,21 +52,26 @@ class OrderService {
     return true;
   }
 
-  getOrderById(orderId) {
+  getOrderById (orderId) {
     return this.list.find(item => item.id === orderId);
   }
-  
+  //获得指定用户的所有订单
+  getOrdersByUserId (userId) {
+    return this.list.filter(order => order.userId === userId);
+  }
 
   // 将数据存入到localstorage中
-  _saveData() {
+  _saveData () {
     localStorage.setItem('orderList', JSON.stringify(this.list));
   }
 
-  _loadData() {
+  _loadData () {
     const list = localStorage.getItem('orderList');
-    if (list) {
+    if (list)
+    {
       this.list = JSON.parse(list);
-    } else {
+    } else
+    {
       this.list = defaultList;
       this._saveData();
     }
