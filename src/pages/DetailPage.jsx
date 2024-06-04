@@ -60,8 +60,8 @@ const DetailPage = () => {
   const indexMap = require('C:/Users/86133/Desktop/轻量化/work_4/ReactMall/src/static/temp/' + d);
   return <>
     <TopNavBar onBack={goBack} />
-    <div style={{ padding: '20px', backgroundColor: '#f0f2f5', maxWidth: '600px', margin: '40px auto 0 auto' }}>
-      <Card style={{ minWidth: '300px', minHeight: '800px', maxHeight: '800px', overflowY: 'auto' }}>
+    <div style={{ padding: '20px', backgroundColor: '#f0f2f5', maxWidth: '600px', maxHeight: '900px', overflowY: 'auto', }}>
+      <Card style={{ minWidth: '300px', minHeight: '800px', margin: '40px auto 70px auto' }}>
         <Image src={indexMap} alt={good.name} width="100%" />
         <Title level={2}>{good.name}</Title>
         <Text type="secondary">{good.description}</Text>
@@ -102,7 +102,7 @@ const DetailPage = () => {
         <Title level={3}>商品详情</Title>
         <Text type="secondary">{good.description}</Text>
       </Card>
-      <div style={{ position: 'fixed', width: '440px', bottom: 20, left: '50%', transform: 'translateX(-50%)', backgroundColor: '#fff', padding: '10px 20px', boxShadow: '0 -2px 8px rgba(0, 0, 0, 0.1)', display: 'flex', justifyContent: 'space-between', gap: '20px', zIndex: 1000 }}>
+      <div style={{ position: 'fixed', width: '470px', bottom: 20, left: '50%', transform: 'translateX(-50%)', backgroundColor: '#fff', padding: '10px 20px', boxShadow: '0 -2px 8px rgba(0, 0, 0, 0.1)', display: 'flex', justifyContent: 'space-between', gap: '20px', zIndex: 1000 }}>
         <Button type="primary" danger onClick={onBuyClick}>立即购买</Button>
         <Button type="primary" onClick={onAddToCartClick}>加入购物车</Button>
       </div>

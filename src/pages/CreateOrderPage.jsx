@@ -48,8 +48,8 @@ const CreateOrderPage = () => {
   const indexMap = require('C:/Users/86133/Desktop/轻量化/work_4/ReactMall/src/static/temp/' + d);
   return <>
     <TopNavBar onBack={goBack} />
-    <div style={{ padding: '20px', backgroundColor: '#f0f2f5', maxWidth: '600px', margin: '40px auto 0 auto' }}>
-      <Card style={{ minWidth: '300px', minHeight: '800px', maxHeight: '800px', overflowY: 'auto' }}>
+    <div style={{ padding: '20px', backgroundColor: '#f0f2f5', maxWidth: '600px', maxHeight: '900px', overflowY: 'auto', }}>
+      <Card style={{ minWidth: '300px', minHeight: '800px', margin: '40px auto 0 auto' }}>
         <Title level={4}>创建订单</Title>
         <Divider />
         <div style={{ marginBottom: '16px' }}>

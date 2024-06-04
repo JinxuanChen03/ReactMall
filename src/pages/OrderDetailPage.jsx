@@ -30,8 +30,8 @@ const OrderDetailPage = () => {
   const indexMap = require('C:/Users/86133/Desktop/轻量化/work_4/ReactMall/src/static/temp/' + d);
   return <>
     <TopNavBar onBack={goBack} />
-    <div style={{ padding: '20px', backgroundColor: '#f0f2f5', maxWidth: '600px', margin: '40px auto 0 auto' }}>
-      <Card style={{ minWidth: '300px', minHeight: '100px', overflowY: 'auto' }}>
+    <div style={{ padding: '20px', backgroundColor: '#f0f2f5', maxWidth: '600px', maxHeight: '600px', maxHeight: '900px', overflowY: 'auto', }}>
+      <Card style={{ minWidth: '300px', minHeight: '100px', overflowY: 'auto', margin: '40px auto 0 auto' }}>
         <Title level={4}>订单详情</Title>
         <Text strong>订单状态: { }</Text>
         {order.status === 0 && '未支付'}
@@ -49,7 +49,7 @@ const OrderDetailPage = () => {
           <Text>{user.address}</Text>
         </div>
       </Card>
-      <Card style={{ minWidth: '300px', minHeight: '800px', maxHeight: '800px', overflowY: 'auto' }}>
+      <Card style={{ minWidth: '300px', minHeight: '600px', margin: '10px auto 0 auto' }}>
         <Title level={4}>商品详情</Title>
         <Divider dashed />
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
@@ -59,15 +59,15 @@ const OrderDetailPage = () => {
             <br />
             <Text type="secondary">{good.description}</Text>
             <br />
-            <Text type="secondary">{good.types[order.type].typeName}</Text>
+            <Text type="secondary">{good.types[order.type - 1].typeName}</Text>
             <br />
-            <Text strong style={{ color: 'red', fontSize: '18px' }}>¥{good.types[order.type].typePrice}*{order.quantity}</Text>
+            <Text strong style={{ color: 'red', fontSize: '18px' }}>¥{good.types[order.type - 1].typePrice}*{order.quantity}</Text>
           </div>
         </div>
         <Divider />
         <Form>
           <Text>
-            商品类型:{good.types[order.type].typeName}
+            商品类型:{good.types[order.type - 1].typeName}
           </Text>
           <br />
           <Text>
