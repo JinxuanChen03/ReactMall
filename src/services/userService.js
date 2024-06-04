@@ -25,11 +25,17 @@ class UserService {
       throw new Error('Username or email already exists');
     }
     const maxId = this.users.reduce((max, user) => Math.max(max, user.id), 0);
+    const phone = null
+    const address = null
+    const head = null
     const newUser = {
       id: maxId + 1,
       username,
       password,  // 密码应进行哈希处理
-      email
+      email,
+      phone,
+      address,
+      head
     };
     this.users.push(newUser);
     this._saveData();
@@ -89,9 +95,11 @@ class UserService {
     this.currentUser = null;
     this._saveCurrentUser();
   }
+  //设置当前用户查看
 
   // 将当前用户数据存入到localStorage中
   _saveCurrentUser () {
+    //localStorage.clear()
     localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
   }
 

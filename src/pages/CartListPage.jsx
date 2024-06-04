@@ -18,7 +18,7 @@ const CartListPage = () => {
       <ul>
         {carts.map(carts => (
           <li key={carts.id}>
-            Carts #{carts.id} - good: {carts.goodId === 1 ? 'Paid' : 'Unpaid'} - quantity: {carts.quantity}
+            Carts #{carts.id} - good: {carts.goodId === 1 ? 'Paid' : 'Unpaid'} - quantity: {carts.quantity}-type:{carts.type}
           </li>
         ))}
       </ul>

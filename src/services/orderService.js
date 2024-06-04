@@ -5,9 +5,12 @@ const defaultList = [
     orderNo: '201801010001',
     createTime: '2018-01-01 00:00:00',
     payTime: '2018-01-01 00:00:00',
-    status: 0, // 0,未支付 1已支付 2发货 3确认收货
+    status: 0, // 0,未支付 1已支付 2发货 3确认收货 4 退款
     price: 100,
     goodId: 1,
+    type: 1,
+    quantity: 1,
+    remarksValue: "hhhhh"
   }
 ]
 
@@ -18,7 +21,7 @@ class OrderService {
     this._loadData();
   }
 
-  createOrder (userId, goodId, price) {
+  createOrder (userId, goodId, price, type, quantity, remarksValue) {
     const orderNo = new Date().getTime();
     // 从list中找到最大值，生成新的id
     const maxId = this.list.reduce((max, item) => {
@@ -33,6 +36,9 @@ class OrderService {
       createTime: new Date().toLocaleString(),
       status: 0,
       price,
+      type,
+      quantity,
+      remarksValue
     }
     this.list.push(order);
     this._saveData();
@@ -62,6 +68,7 @@ class OrderService {
 
   // 将数据存入到localstorage中
   _saveData () {
+    //localStorage.clear()
     localStorage.setItem('orderList', JSON.stringify(this.list));
   }
 

@@ -13,7 +13,7 @@ const RegisterPage = () => {
     event.preventDefault(); // 阻止表单默认提交行为
     try
     {
-      const RegisterIn = await user.addUser(username, password); // 调用注册服务
+      const RegisterIn = await user.addUser(username, password, email); // 调用注册服务
       if (RegisterIn)
       {
         navigate('/login');

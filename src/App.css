@@ -6,7 +6,6 @@ body {
 }
 
 .App {
-  text-align: center;
   width: 480px;
   height: 900px;
   box-sizing: border-box;
@@ -63,4 +62,76 @@ body {
   to {
     transform: rotate(360deg);
   }
+}
+
+.detail-container {
+  width: 90%;
+  max-width: 500px;
+  height: 800px;
+  margin: auto;
+  background-color: #ccc;
+  border: 1px solid #ccc;
+  padding: 10px;
+  color: white;
+  /* 设置文字颜色为白色以便在深色背景上清晰显示 */
+}
+
+.detail-product-image {
+  width: 100%;
+}
+
+.detail-product-details {
+  margin-top: 10px;
+}
+
+.detail-title {
+  font-size: 18px;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+  /* 设置标题字体 */
+}
+
+.detail-price {
+  color: red;
+  font-size: 24px;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+  /* 设置价格字体 */
+}
+
+.detail-original-price {
+  text-decoration: line-through;
+  margin-left: 10px;
+  color: grey;
+  font-family: 'Arial', sans-serif;
+  /* 设置原价字体 */
+}
+
+.detail-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  font-family: 'Arial', sans-serif;
+  /* 设置按钮字体 */
+}
+
+.detail-specs {
+  font-size: 14px;
+  color: gray;
+  margin-top: 5px;
+  font-family: 'Arial', sans-serif;
+  /* 设置规格字体 */
+}
+
+.detail-highlights {
+  font-size: 14px;
+  color: black;
+  margin-top: 5px;
+  font-family: 'Arial', sans-serif;
+  /* 设置亮点字体 */
 }

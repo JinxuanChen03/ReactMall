@@ -4,6 +4,7 @@ const defaultCart = [
     userId: 1,
     goodId: 1,
     quantity: 2,
+    type: 1,
     createTime: '2018-01-01 00:00:00',
   }
 ];
@@ -15,8 +16,8 @@ class CartService {
   }
 
   // 添加商品到购物车
-  addToCart (userId, goodId, quantity) {
-    const existingItem = this.cart.find(item => item.userId === userId && item.goodId === goodId);
+  addToCart (userId, goodId, quantity, type) {
+    const existingItem = this.cart.find(item => item.userId === userId && item.goodId === goodId && item.type == type);
     if (existingItem)
     {
       existingItem.quantity += quantity;  // 如果商品已存在，增加数量
@@ -27,7 +28,8 @@ class CartService {
         id: maxId + 1,
         userId,
         goodId,
-        quantity
+        quantity,
+        type
       });
     }
     this._saveData();
@@ -66,6 +68,7 @@ class CartService {
 
   // 将数据存入到localStorage中
   _saveData () {
+    //localStorage.clear()
     localStorage.setItem('cart', JSON.stringify(this.cart));
   }
 
