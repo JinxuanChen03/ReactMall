@@ -64,74 +64,289 @@ body {
   }
 }
 
-.detail-container {
-  width: 90%;
-  max-width: 500px;
-  height: 800px;
-  margin: auto;
-  background-color: #ccc;
-  border: 1px solid #ccc;
+.co-container {
+  background-color: #f0f2f5;
+  max-width: 600px;
+  min-height: 900px;
+  max-height: 900px;
+  overflow-y: auto;
+  margin: 0 auto;
+}
+
+.co-user-info {
+  margin: 50px auto 20px;
   padding: 10px;
-  color: white;
-  /* 设置文字颜色为白色以便在深色背景上清晰显示 */
+  background-color: #fff;
+  position: relative;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.detail-product-image {
+.co-user-info-row {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.co-user-info-icon {
+  margin-right: 10px;
+  font-size: 20px;
+  color: #1890ff;
+}
+
+.co-user-info-text {
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+}
+
+.co-user-info-phone {
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #666;
+}
+
+.co-user-info-address {
+  display: block;
+  font-size: 16px;
+  margin-top: 5px;
+  color: #999;
+}
+
+.co-dashed-divider {
   width: 100%;
+  border-top: 4px dashed #ff4d4f;
+  border-bottom: 4px dashed #40a9ff;
+  height: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-size: 10px 4px;
 }
 
-.detail-product-details {
-  margin-top: 10px;
+.co-card {
+  min-width: 300px;
+  min-height: 700px;
+}
+
+.co-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.co-item-img {
+  width: 60px;
+  height: 60px;
+  margin-right: 16px;
+}
+
+.co-item-details {
+  font-weight: bold;
+  color: red;
+  font-size: 18px;
+}
+
+.co-summary {
+  display: flex;
+  justify-content: space-between;
+}
+
+.co-summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.co-form-remarks {
+  padding-top: 20px;
+}
+
+.detail-container {
+  padding: 20px;
+  background-color: #f0f2f5;
+  max-width: 600px;
+  max-height: 900px;
+  overflow-y: auto;
+  margin: 0 auto;
+}
+
+.detail-card {
+  min-width: 300px;
+  min-height: 800px;
+  margin: 40px auto 70px auto;
 }
 
 .detail-title {
-  font-size: 18px;
-  font-weight: bold;
-  font-family: 'Arial', sans-serif;
-  /* 设置标题字体 */
+  margin-top: 20px;
 }
 
-.detail-price {
-  color: red;
-  font-size: 24px;
-  font-weight: bold;
-  font-family: 'Arial', sans-serif;
-  /* 设置价格字体 */
-}
-
-.detail-original-price {
-  text-decoration: line-through;
-  margin-left: 10px;
-  color: grey;
-  font-family: 'Arial', sans-serif;
-  /* 设置原价字体 */
-}
-
-.detail-button {
-  background-color: red;
-  color: white;
-  border: none;
+.detail-fixed-footer {
+  position: fixed;
+  width: 470px;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
   padding: 10px 20px;
-  text-align: center;
-  display: inline-block;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  z-index: 1000;
+}
+
+.od-container {
+  background-color: #f0f2f5;
+  max-width: 600px;
+  min-height: 900px;
+  max-height: 900px;
+  overflow-y: auto;
+  margin: 0 auto;
+}
+
+.od-status {
+  display: flex;
+  align-items: center;
+  background-color: var(--status-color);
+  padding: 10px;
+  border-radius: 4px;
+  margin: 40px auto 0 auto;
+  min-height: 120px;
+}
+
+.od-user-info {
+  margin: 10px auto 1px;
+  padding: 10px;
+  background-color: #fff;
+  position: relative;
+}
+
+.od-user-info-row {
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.od-icon {
+  margin-right: 10px;
+  font-size: 20px;
+  color: #1890ff;
+}
+
+.od-user-name {
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+}
+
+.od-user-phone {
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #666;
+}
+
+.od-user-address {
+  display: block;
+  font-size: 16px;
+  margin-top: 5px;
+  color: #999;
+}
+
+.od-dashed-divider {
   width: 100%;
-  cursor: pointer;
-  font-family: 'Arial', sans-serif;
-  /* 设置按钮字体 */
+  border-top: 4px dashed #ff4d4f;
+  border-bottom: 4px dashed #40a9ff;
+  height: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-size: 10px 4px;
 }
 
-.detail-specs {
-  font-size: 14px;
-  color: gray;
-  margin-top: 5px;
-  font-family: 'Arial', sans-serif;
-  /* 设置规格字体 */
+.od-card {
+  min-width: 300px;
+  min-height: 600px;
+  margin: 10px auto 0 auto;
 }
 
-.detail-highlights {
-  font-size: 14px;
-  color: black;
-  margin-top: 5px;
-  font-family: 'Arial', sans-serif;
-  /* 设置亮点字体 */
+.od-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.od-item-img {
+  width: 60px;
+  height: 60px;
+  margin-right: 16px;
+}
+
+.od-item-details {
+  font-weight: bold;
+  color: red;
+  font-size: 18px;
+}
+
+.od-summary {
+  display: flex;
+  justify-content: space-between;
+}
+
+.od-summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.od-remarks {
+  margin-top: 10px;
+}
+
+.pay-container {
+  padding: 20px;
+  background-color: #f0f2f5;
+  max-width: 600px;
+  max-height: 900px;
+  overflow-y: auto;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.pay-card {
+  min-width: 300px;
+  min-height: 800px;
+  margin: 40px auto 0 auto;
+}
+
+.pay-title {
+  margin: 20px 0;
+}
+
+.pay-radio-group {
+  width: 100%;
+  text-align: left;
+}
+
+.pay-radio {
+  width: 100%;
+}
+
+.pay-radio-row {
+  display: flex;
+  align-items: center;
+}
+
+.pay-radio-icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.pay-radio-text {
+  padding-left: 20px;
+}
+
+.pay-button {
+  width: 100%;
+  margin-top: 20px;
 }

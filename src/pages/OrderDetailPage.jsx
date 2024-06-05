@@ -2,9 +2,12 @@ import React, { useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ServiceContext } from '../contexts/ServiceContext';
 import useLoginCheck from '../hook/LoginCheck';
-import { Card, Typography, Divider, Input, Button, Select, Form } from 'antd';
+import { Card, Typography, Divider, Input, Button, Select, Form, Row, Col } from 'antd';
 import TopNavBar from '../components/TopNavBar'; // 导入封装好的组件
+import { EnvironmentOutlined, RightOutlined, CloseCircleOutlined, CheckCircleOutlined, CarOutlined, SmileOutlined } from '@ant-design/icons';
+
 const { Title, Text } = Typography;
+
 const OrderDetailPage = () => {
   useLoginCheck();
   const services = useContext(ServiceContext);
@@ -14,98 +17,147 @@ const OrderDetailPage = () => {
   const order = services.order.getOrderById(parsedOrderId);
   const good = services.good.getGoodById(order.goodId);
   const user = services.user.getCurrentUser(order.userId);
-  console.log(order)
+
+  const getOrderStatusText = (status) => {
+    switch (status)
+    {
+      case 0:
+        return '未支付';
+      case 1:
+        return '已支付';
+      case 2:
+        return '发货';
+      case 3:
+        return '确认收货';
+      default:
+        return '未知状态';
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status)
+    {
+      case 0:
+        return '#ff4d4f'; // 红色
+      case 1:
+        return '#40a9ff'; // 蓝色
+      case 2:
+        return '#faad14'; // 黄色
+      case 3:
+        return '#52c41a'; // 绿色
+      default:
+        return '#d9d9d9'; // 灰色
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status)
+    {
+      case 0:
+        return <CloseCircleOutlined style={{ color: '#ff4d4f', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+      case 1:
+        return <CheckCircleOutlined style={{ color: '#ff4d4f', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+      case 2:
+        return <CarOutlined style={{ color: '#ff4d4f', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+      case 3:
+        return <SmileOutlined style={{ color: '#ff4d4f', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+      default:
+        return null;
+    }
+  };
+
   if (!order)
   {
     alert('订单不存在');
     navigate('/home');
     return;
   }
+
   const goBack = () => {
     navigate(-1); // Navigate back to the previous page
   };
-  const d = good.img;
-  console.log(d)
-  //换成自己的地址
-  const indexMap = require('C:/Users/86133/Desktop/轻量化/work_4/ReactMall/src/static/temp/' + d);
-  return <>
-    <TopNavBar onBack={goBack} />
-    <div style={{ padding: '20px', backgroundColor: '#f0f2f5', maxWidth: '600px', maxHeight: '600px', maxHeight: '900px', overflowY: 'auto', }}>
-      <Card style={{ minWidth: '300px', minHeight: '100px', overflowY: 'auto', margin: '40px auto 0 auto' }}>
-        <Title level={4}>订单详情</Title>
-        <Text strong>订单状态: { }</Text>
-        {order.status === 0 && '未支付'}
-        {order.status === 1 && '已支付'}
-        {order.status === 2 && '发货'}
-        {order.status === 3 && '确认收货'}
-        <br />
-        <Text type="secondary">订单号：{order.orderNo}</Text>
-        <br />
-        <Text type="secondary">创建时间：{order.createTime}</Text>
-        <Divider />
-        <div style={{ marginBottom: '16px' }}>
-          <Text strong>{user.username} {user.phone}</Text>
-          <br />
-          <Text>{user.address}</Text>
+
+  const images = require(`../static/temp/${good.img[order.type - 1]}`);
+
+  return (
+    <>
+      <TopNavBar onBack={goBack} title="订单详情" />
+      <div className="od-container">
+        <div className="od-status" style={{ backgroundColor: getStatusColor(order.status) }}>
+          {getStatusIcon(order.status)}
+          <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: '20px' }}>{getOrderStatusText(order.status)}</Text>
         </div>
-      </Card>
-      <Card style={{ minWidth: '300px', minHeight: '600px', margin: '10px auto 0 auto' }}>
-        <Title level={4}>商品详情</Title>
-        <Divider dashed />
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
-          <img src={indexMap} style={{ width: '60px', height: '60px', marginRight: '16px' }} />
-          <div>
-            <Text strong>{good.name}</Text>
-            <br />
-            <Text type="secondary">{good.description}</Text>
-            <br />
-            <Text type="secondary">{good.types[order.type - 1].typeName}</Text>
-            <br />
-            <Text strong style={{ color: 'red', fontSize: '18px' }}>¥{good.types[order.type - 1].typePrice}*{order.quantity}</Text>
-          </div>
+        <div className="od-user-info">
+          <Row align="middle" className="od-user-info-row">
+            <Col style={{ display: 'flex', alignItems: 'center' }}>
+              <EnvironmentOutlined className="od-icon" />
+              <div>
+                <Text className="od-user-name">{user.username}</Text>
+                <Text className="od-user-phone">{user.phone}</Text>
+                <Text className="od-user-address">{user.address}</Text>
+              </div>
+            </Col>
+          </Row>
+          <div className="od-dashed-divider"></div>
         </div>
-        <Divider />
-        <Form>
-          <Text>
-            商品类型:{good.types[order.type - 1].typeName}
-          </Text>
-          <br />
-          <Text>
-            商品数量:{order.quantity}
-          </Text>
-          <Divider />
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Text>商品合计</Text>
-            <Text>¥{order.price}</Text>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Text>运费</Text>
-            <Text>¥0</Text>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Text>活动优惠</Text>
-            <Text>-¥0</Text>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Text>优惠券</Text>
-            <Text>-¥0</Text>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Text>积分抵扣</Text>
-            <Text>-¥0</Text>
+        <Card className="od-card">
+          <Title level={4}>商品详情</Title>
+          <Divider dashed />
+          <div className="od-item">
+            <img src={images} className="od-item-img" />
+            <div>
+              <Text strong>{good.name}</Text>
+              <br />
+              <Text type="secondary">{good.types[order.type - 1].typeName}</Text>
+              <br />
+              <Text className="od-item-details">¥{good.types[order.type - 1].typePrice}*{order.quantity}</Text>
+            </div>
           </div>
           <Divider />
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}>
-            <Text>实际支付</Text>
-            <Text>¥{order.price}</Text>
-          </div>
-          <Text>备注</Text>
-          <br />
-          <Text>{order.remarksValue}</Text>
-        </Form>
-      </Card>
-    </div>
-  </>
-}
+          <Form>
+            <Text>
+              商品类型: {good.types[order.type - 1].typeName}
+            </Text>
+            <br />
+            <Text>
+              商品数量: {order.quantity}
+            </Text>
+            <Divider />
+            <div className="od-summary">
+              <Text>商品合计</Text>
+              <Text>¥{order.price}</Text>
+            </div>
+            <div className="od-summary">
+              <Text>运费</Text>
+              <Text>¥0</Text>
+            </div>
+            <div className="od-summary">
+              <Text>活动优惠</Text>
+              <Text>-¥0</Text>
+            </div>
+            <div className="od-summary">
+              <Text>优惠券</Text>
+              <Text>-¥0</Text>
+            </div>
+            <div className="od-summary">
+              <Text>积分抵扣</Text>
+              <Text>-¥0</Text>
+            </div>
+            <Divider />
+            <div className="od-summary-total">
+              <Text>实际支付</Text>
+              <Text>¥{order.price}</Text>
+            </div>
+            <div className="od-remarks">
+              <Text>备注</Text>
+              <br />
+              <Text>{order.remarksValue}</Text>
+            </div>
+          </Form>
+        </Card>
+      </div>
+    </>
+  );
+};
 
 export default OrderDetailPage;

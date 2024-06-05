@@ -25,8 +25,8 @@ class UserService {
       throw new Error('Username or email already exists');
     }
     const maxId = this.users.reduce((max, user) => Math.max(max, user.id), 0);
-    const phone = null
-    const address = null
+    const phone = "13326637878937"
+    const address = "北京交通大学"
     const head = null
     const newUser = {
       id: maxId + 1,
