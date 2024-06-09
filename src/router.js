@@ -9,6 +9,7 @@ import OrderListPage from "./pages/OrderListPage";
 import CartListPage from "./pages/CartListPage";
 import OrderDetailPage from "./pages/OrderDetailPage";
 import RegisterPage from "./pages/RegisterPage";
+import DeliveryDetailPage from "./pages/DeliveryDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "pay/:orderId",
         element: <PayPage />
+      },
+      {
+        path: "deliverydetail/:orderId",
+        element: <DeliveryDetailPage />
       },
       {
         path: "orderList",

@@ -1,3 +1,4 @@
+import axios from 'axios';
 const defaultList = [
   {
     id: 1,
@@ -246,66 +247,202 @@ const defaultList = [
   }
 ]
 
+// class GoodService {
+//   list = [];
+
+//   constructor() {
+//     this._loadData();
+//   }
+
+//   // 根据id获取单个商品
+//   getGoodById (id) {
+//     return this.list.find(item => item.id === id);
+//   }
+
+//   // 获取商品列表
+//   getGoodList () {
+//     return this.list;
+//   }
+
+//   // 添加商品
+//   addGood (good) {
+//     this.list.push(good);
+//     this._saveData();
+//   }
+
+//   // 删除商品
+//   deleteGood (id) {
+//     this.list = this.list.filter(item => item.id !== id);
+//     this._saveData();
+//   }
+
+//   // 更新商品
+//   updateGood (good) {
+//     this.list = this.list.map(item => {
+//       if (item.id === good.id)
+//       {
+//         return good;
+//       }
+//       return item;
+//     });
+//     this._saveData();
+//   }
+
+
+//   // 将数据存入到localstorage中
+//   _saveData () {
+//     localStorage.setItem('goodList', JSON.stringify(this.list));
+//   }
+
+//   _loadData () {
+//     //localStorage.clear()
+//     const list = localStorage.getItem('goodList');
+//     if (list)
+//     {
+//       this.list = JSON.parse(list);
+//     } else
+//     {
+//       this.list = defaultList;
+//       this._saveData();
+//     }
+//   }
+// }
 class GoodService {
-  list = [];
-
-  constructor() {
-    this._loadData();
+  // 获取所有商品
+  async getGoodList () {
+    try
+    {
+      const response = await axios.get('/api/goods');
+      return response.data.map(this.convertToFrontendFormat);
+    } catch (error)
+    {
+      console.error('Error fetching goods:', error);
+      throw error;
+    }
   }
 
-  // 根据id获取单个商品
-  getGoodById (id) {
-    return this.list.find(item => item.id === id);
+  // 根据ID获取单个商品
+  async getGoodById (id) {
+    try
+    {
+      const response = await axios.get(`/api/goods/${id}`);
+      return this.convertToFrontendFormat(response.data);
+    } catch (error)
+    {
+      console.error(`Error fetching good with ID ${id}:`, error);
+      throw error;
+    }
   }
 
-  // 获取商品列表
-  getGoodList () {
-    return this.list;
-  }
-
-  // 添加商品
-  addGood (good) {
-    this.list.push(good);
-    this._saveData();
-  }
-
-  // 删除商品
-  deleteGood (id) {
-    this.list = this.list.filter(item => item.id !== id);
-    this._saveData();
+  // 添加新商品
+  async addGood (good) {
+    try
+    {
+      const dbGood = this.convertToDatabaseFormat(good);
+      const response = await axios.post('/api/goods', dbGood);
+      return this.convertToFrontendFormat(response.data);
+    } catch (error)
+    {
+      console.error('Error adding good:', error);
+      throw error;
+    }
   }
 
   // 更新商品
-  updateGood (good) {
-    this.list = this.list.map(item => {
-      if (item.id === good.id)
-      {
-        return good;
-      }
-      return item;
-    });
-    this._saveData();
-  }
-
-
-  // 将数据存入到localstorage中
-  _saveData () {
-    localStorage.setItem('goodList', JSON.stringify(this.list));
-  }
-
-  _loadData () {
-    //localStorage.clear()
-    const list = localStorage.getItem('goodList');
-    if (list)
+  async updateGood (id, good) {
+    try
     {
-      this.list = JSON.parse(list);
-    } else
+      const dbGood = this.convertToDatabaseFormat(good);
+      const response = await axios.put(`/api/goods/${id}`, dbGood);
+      return this.convertToFrontendFormat(response.data);
+    } catch (error)
     {
-      this.list = defaultList;
-      this._saveData();
+      console.error(`Error updating good with ID ${id}:`, error);
+      throw error;
     }
   }
-}
 
+  // 删除商品
+  async deleteGood (id) {
+    try
+    {
+      await axios.delete(`/api/goods/${id}`);
+    } catch (error)
+    {
+      console.error(`Error deleting good with ID ${id}:`, error);
+      throw error;
+    }
+  }
+
+  // 将数据库格式转换为前端格式
+  convertToFrontendFormat (dbGood) {
+    // 处理图片数组：确保图片数量与 types 数量一致
+    let images = Array.isArray(dbGood.image) ? dbGood.image : [dbGood.image];
+    if (images.length < dbGood.stockDetails.length)
+    {
+      // 如果图片数量少于 types 数量，重复最后一张图片以匹配 types 数量
+      const additionalImages = new Array(dbGood.stockDetails.length - images.length).fill(images[images.length - 1]);
+      images = images.concat(additionalImages);
+    } else if (images.length > dbGood.stockDetails.length)
+    {
+      // 如果图片数量多于 types 数量，截取前面的图片
+      images = images.slice(0, dbGood.stockDetails.length);
+    }
+
+    return {
+      id: dbGood.id,
+      name: dbGood.name,
+      price: dbGood.price,
+      categoryId: dbGood.firstClassify,
+      buynum: dbGood.sales,
+      description: dbGood.description || "",
+      detail: dbGood.detail || "",
+      look: dbGood.look || 0,
+      storage: dbGood.stock,
+      types: dbGood.stockDetails.map((detail, index) => ({
+        typeid: index + 1, // 使用索引作为 typeid
+        typeName: `${detail.color} ${detail.size}`,
+        typePrice: detail.price
+      })),
+      img: images // 对齐后的图片数组
+    };
+  }
+
+  // 将前端格式转换为数据库格式
+  convertToDatabaseFormat (frontendGood) {
+    // 确保每个 type 都有一个对应的图片
+    let images = frontendGood.img;
+    if (images.length < frontendGood.types.length)
+    {
+      // 如果图片数量少于 types 数量，重复最后一张图片以匹配 types 数量
+      const additionalImages = new Array(frontendGood.types.length - images.length).fill(images[images.length - 1]);
+      images = images.concat(additionalImages);
+    } else if (images.length > frontendGood.types.length)
+    {
+      // 如果图片数量多于 types 数量，截取前面的图片
+      images = images.slice(0, frontendGood.types.length);
+    }
+
+    return {
+      id: frontendGood.id,
+      name: frontendGood.name,
+      price: frontendGood.price,
+      firstClassify: frontendGood.categoryId,
+      sales: frontendGood.buynum,
+      description: frontendGood.description,
+      detail: frontendGood.detail,
+      look: frontendGood.look,
+      stock: frontendGood.storage,
+      stockDetails: frontendGood.types.map((type, index) => ({
+        color: type.typeName.split(' ')[0], // 假设颜色是类型名称中的第一个单词
+        size: type.typeName.split(' ')[1], // 假设大小是类型名称中的第二个单词
+        price: type.typePrice,
+        stock: frontendGood.storage, // 假设 stock 是相同的库存量
+        sku: Math.random().toString(36).substring(2, 15) // 生成一个随机的 SKU 作为示例
+      })),
+      image: images // 对齐后的图片数组
+    };
+  }
+}
 const goodService = new GoodService()
 export default goodService;

@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ServiceContext } from '../contexts/ServiceContext';
 import useLoginCheck from '../hook/LoginCheck';
-import { Card, Typography, Divider, Input, Button, Select, Form, Row, Col } from 'antd';
+import { Card, Typography, Divider, Button, Row, Col, Form, Spin } from 'antd';
 import TopNavBar from '../components/TopNavBar'; // 导入封装好的组件
 import { EnvironmentOutlined, RightOutlined, CloseCircleOutlined, CheckCircleOutlined, CarOutlined, SmileOutlined } from '@ant-design/icons';
 
@@ -13,10 +13,43 @@ const OrderDetailPage = () => {
   const services = useContext(ServiceContext);
   const { orderId } = useParams();
   const navigate = useNavigate();
-  const parsedOrderId = parseInt(orderId, 10);
-  const order = services.order.getOrderById(parsedOrderId);
-  const good = services.good.getGoodById(order.goodId);
-  const user = services.user.getCurrentUser(order.userId);
+  const [order, setOrder] = useState(null);
+  const [good, setGood] = useState(null);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // 增加一个加载状态
+
+  useEffect(() => {
+    const fetchOrderDetails = async () => {
+      setLoading(true); // 开始加载时设置加载状态为 true
+      const parsedOrderId = parseInt(orderId, 10);
+      try
+      {
+        const fetchedOrder = await services.order.getOrderById2(parsedOrderId);
+        if (fetchedOrder)
+        {
+          setOrder(fetchedOrder);
+          const fetchedGood = await services.good.getGoodById(fetchedOrder.goodId);
+          setGood(fetchedGood);
+          const fetchedUser = await services.user.getCurrentUser(fetchedOrder.userId);
+          setUser(fetchedUser);
+        } else
+        {
+          alert('订单不存在');
+          navigate('/home');
+        }
+      } catch (error)
+      {
+        console.error('Error fetching order details:', error);
+        alert('加载订单详情时出错');
+        navigate('/home');
+      } finally
+      {
+        setLoading(false); // 加载完成时设置加载状态为 false
+      }
+    };
+
+    fetchOrderDetails();
+  }, [orderId, services, navigate]);
 
   const getOrderStatusText = (status) => {
     switch (status)
@@ -54,28 +87,39 @@ const OrderDetailPage = () => {
     switch (status)
     {
       case 0:
-        return <CloseCircleOutlined style={{ color: '#ff4d4f', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <CloseCircleOutlined style={{ color: '#faad14', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       case 1:
-        return <CheckCircleOutlined style={{ color: '#ff4d4f', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <CheckCircleOutlined style={{ color: '#faad14', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       case 2:
-        return <CarOutlined style={{ color: '#ff4d4f', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <CarOutlined style={{ color: '#faad14', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       case 3:
-        return <SmileOutlined style={{ color: '#ff4d4f', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <SmileOutlined style={{ color: '#faad14', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       default:
         return null;
     }
   };
 
-  if (!order)
-  {
-    alert('订单不存在');
-    navigate('/home');
-    return;
-  }
-
   const goBack = () => {
     navigate(-1); // Navigate back to the previous page
   };
+
+  const goToDeliveryDetail = () => {
+    navigate(`/deliverydetail/${orderId}`); // Navigate to the DeliveryDetailPage
+  };
+
+  if (loading)
+  {
+    return (
+      <div className="loading-container">
+        <Spin tip="加载中..." size="large" /> {/* 使用 Spin 组件显示加载动画 */}
+      </div>
+    );
+  }
+
+  if (!order || !good || !user)
+  {
+    return <div>加载中...</div>; // 显示一个加载状态或占位符
+  }
 
   const images = require(`../static/temp/${good.img[order.type - 1]}`);
 
@@ -104,7 +148,7 @@ const OrderDetailPage = () => {
           <Title level={4}>商品详情</Title>
           <Divider dashed />
           <div className="od-item">
-            <img src={images} className="od-item-img" />
+            <img src={images} className="od-item-img" alt={good.name} />
             <div>
               <Text strong>{good.name}</Text>
               <br />
@@ -115,13 +159,9 @@ const OrderDetailPage = () => {
           </div>
           <Divider />
           <Form>
-            <Text>
-              商品类型: {good.types[order.type - 1].typeName}
-            </Text>
+            <Text>商品类型: {good.types[order.type - 1].typeName}</Text>
             <br />
-            <Text>
-              商品数量: {order.quantity}
-            </Text>
+            <Text>商品数量: {order.quantity}</Text>
             <Divider />
             <div className="od-summary">
               <Text>商品合计</Text>
@@ -151,9 +191,11 @@ const OrderDetailPage = () => {
             <div className="od-remarks">
               <Text>备注</Text>
               <br />
-              <Text>{order.remarksValue}</Text>
+              <Text>{order.remarks}</Text>
             </div>
           </Form>
+          <Divider />
+          <Button type="primary" onClick={goToDeliveryDetail}>查看配送详情</Button>
         </Card>
       </div>
     </>

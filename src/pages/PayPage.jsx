@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { ServiceContext } from '../contexts/ServiceContext';
 import useLoginCheck from '../hook/LoginCheck';
@@ -14,35 +14,66 @@ const PayPage = () => {
   const services = useContext(ServiceContext);
   const navigate = useNavigate();
 
-  const parsedOrderId = parseInt(orderId, 10);
-  const order = services.order.getOrderById(parsedOrderId);
-
+  const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState('alipay');
+
+  // 异步获取订单数据
+  useEffect(() => {
+    const fetchOrder = async () => {
+      try
+      {
+        const parsedOrderId = parseInt(orderId, 10);
+        const fetchedOrder = await services.order.getOrderById(parsedOrderId);
+        setOrder(fetchedOrder);
+      } catch (error)
+      {
+        console.error('Error fetching order:', error);
+        alert('订单不存在');
+        navigate('/home');
+      } finally
+      {
+        setLoading(false);
+      }
+    };
+
+    fetchOrder();
+  }, [orderId, services.order, navigate]);
 
   const handlePaymentChange = (e) => {
     setPaymentMethod(e.target.value);
   };
 
-  if (!order)
+  const onPayClick = async () => {
+    try
+    {
+      // 根据选择的支付方式显示信息
+      const paymentType = paymentMethod === 'alipay' ? '支付宝支付' : '微信支付';
+      const parsedOrderId = parseInt(orderId, 10);
+      const success = await services.order.payOrder(parsedOrderId, paymentType);
+      if (!success)
+      {
+        alert('支付失败!');
+        return;
+      }
+      alert(`支付成功！支付方式：${paymentType}`);
+      navigate(`/orderDetail/${orderId}`);
+    } catch (error)
+    {
+      console.error('Error processing payment:', error);
+      alert('支付过程中出现错误，请稍后再试。');
+    }
+  };
+
+  if (loading)
   {
-    // TBD 跳转主页
-    alert('订单不存在');
-    navigate('/home');
-    return;
+    return <div>加载中...</div>; // 或者显示一个加载指示器
   }
 
-  const onPayClick = () => {
-    // 1. 支付 
-    const success = services.order.payOrder(parsedOrderId);
-    if (!success)
-    {
-      alert('支付失败!');
-      return;
-    }
-    // 2. 跳转到支付成功页面
-    alert('支付成功');
-    navigate(`/orderDetail/${orderId}`);
-  };
+  if (!order)
+  {
+    return null; // 订单不存在时，返回 null 或者显示一个错误信息
+  }
 
   return (
     <>

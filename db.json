@@ -1,0 +1,1356 @@
+{
+  "userList": [
+    {
+      "id": "1",
+      "userId": "admin",
+      "username": "超级管理员",
+      "email": "123@qq.com",
+      "role": "1",
+      "password": "ABBcc123",
+      "createTime": "2018-12-27 13:27:09",
+      "loginTime": "2024-06-08 22:32:36",
+      "isRun": "true",
+      "note": "无"
+    },
+    {
+      "id": "2",
+      "userId": "test1",
+      "username": "管理员1",
+      "email": "123@qq.com",
+      "role": "1",
+      "password": "ABBcc123",
+      "createTime": "2018-12-27 13:27:09",
+      "loginTime": "2023-12-27 13:27:09",
+      "isRun": "true",
+      "note": "无"
+    },
+    {
+      "id": "3",
+      "userId": "test2",
+      "username": "管理员2",
+      "email": "123@qq.com",
+      "role": "1",
+      "password": "ABBcc123",
+      "createTime": "2018-12-27 13:27:09",
+      "loginTime": "2023-12-27 13:27:09",
+      "isRun": "true",
+      "note": "无"
+    },
+    {
+      "id": "4",
+      "userId": "test3",
+      "username": "管理员3",
+      "email": "123@qq.com",
+      "role": "1",
+      "password": "ABBcc123",
+      "createTime": "2018-12-27 13:27:09",
+      "loginTime": "2024-06-04 19:38:39",
+      "isRun": "true",
+      "note": "无"
+    },
+    {
+      "id": "5",
+      "userId": "test4",
+      "username": "管理员4",
+      "email": "123@qq.com",
+      "role": "1",
+      "password": "ABBcc123",
+      "createTime": "2018-12-27 13:27:09",
+      "loginTime": "2023-12-27 13:27:09",
+      "isRun": "true",
+      "note": "无"
+    },
+    {
+      "id": "6",
+      "userId": "test5",
+      "username": "管理员5",
+      "email": "123@qq.com",
+      "role": "1",
+      "password": "ABBcc123",
+      "createTime": "2018-12-27 13:27:09",
+      "loginTime": "2023-12-27 13:27:09",
+      "isRun": "true",
+      "note": "无"
+    },
+    {
+      "id": "7",
+      "userId": "productAdmin1",
+      "username": "商品管理员1",
+      "email": "123@qq.com",
+      "role": "2",
+      "password": "ABBcc123",
+      "createTime": "2018-12-27 13:27:09",
+      "loginTime": "2023-12-27 13:27:09",
+      "isRun": "true",
+      "note": "无"
+    },
+    {
+      "id": "8",
+      "userId": "productAdmin2",
+      "username": "商品管理员2",
+      "email": "123@qq.com",
+      "role": "2",
+      "password": "ABBcc123",
+      "createTime": "2018-12-27 13:27:09",
+      "loginTime": "2024-06-02 10:41:59",
+      "isRun": "true",
+      "note": "无"
+    },
+    {
+      "id": "9",
+      "userId": "productAdmin3",
+      "username": "商品管理员3",
+      "email": "123@qq.com",
+      "role": "2",
+      "password": "ABBcc123",
+      "createTime": "2018-12-27 13:27:09",
+      "loginTime": "2024-05-31 13:56:55",
+      "isRun": "false",
+      "note": "无"
+    },
+    {
+      "id": "10",
+      "userId": "productAdmin4",
+      "username": "商品管理员4",
+      "email": "123@qq.com",
+      "role": "2",
+      "password": "ABBcc123",
+      "createTime": "2018-12-27 13:27:09",
+      "loginTime": "2023-12-27 13:27:09",
+      "isRun": "true",
+      "note": "无"
+    },
+    {
+      "id": "11",
+      "userId": "orderAdmin1",
+      "username": "订单管理员1",
+      "email": "123@qq.com",
+      "role": "3",
+      "password": "ABBcc123",
+      "createTime": "2018-12-27 13:27:09",
+      "loginTime": "2023-12-27 13:27:09",
+      "isRun": "true",
+      "note": "无"
+    },
+    {
+      "id": "12",
+      "userId": "orderAdmin2",
+      "username": "订单管理员2",
+      "email": "123@qq.com",
+      "role": "3",
+      "password": "ABBcc123",
+      "createTime": "2018-12-27 13:27:09",
+      "loginTime": "2023-12-27 13:27:09",
+      "isRun": "true",
+      "note": "无"
+    },
+    {
+      "id": "13",
+      "userId": "orderAdmin3",
+      "username": "订单管理员3",
+      "email": "123@qq.com",
+      "role": "3",
+      "password": "ABBcc123",
+      "createTime": "2018-12-27 13:27:09",
+      "loginTime": "2023-12-27 13:27:09",
+      "isRun": "true",
+      "note": "无"
+    },
+    {
+      "id": "14",
+      "userId": "orderAdmin4",
+      "username": "订单管理员4",
+      "email": "123@qq.com",
+      "role": "3",
+      "password": "ABBcc123",
+      "createTime": "2018-12-27 13:27:09",
+      "loginTime": "2023-12-27 13:27:09",
+      "isRun": "true",
+      "note": "无"
+    }
+  ],
+  "roleList": [
+    {
+      "id": "1",
+      "role": "超级管理员",
+      "describe": "拥有所以查看和操作功能",
+      "createTime": "2024-05-20 18:18:42",
+      "isRun": "true",
+      "userNum": 6
+    },
+    {
+      "id": "2",
+      "role": "商品管理员",
+      "describe": "只能查看并操作商品",
+      "createTime": "2024-05-20 18:18:42",
+      "isRun": "true",
+      "userNum": 4
+    },
+    {
+      "id": "3",
+      "role": "订单管理员",
+      "describe": "只能查看并操作订单",
+      "createTime": "2024-05-20 18:18:42",
+      "isRun": "true",
+      "userNum": 4
+    }
+  ],
+  "firstMenu": [
+    {
+      "id": "1",
+      "menuname": "商品",
+      "grade": "1",
+      "menuicon": "ShoppingOutlined",
+      "isDisplay": "true",
+      "router": "good",
+      "allowedRole": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "2",
+      "menuname": "订单",
+      "grade": "1",
+      "menuicon": "ProfileOutlined",
+      "isDisplay": "true",
+      "router": "order",
+      "allowedRole": [
+        "1",
+        "3"
+      ]
+    },
+    {
+      "id": "3",
+      "menuname": "权限",
+      "grade": "1",
+      "menuicon": "UnlockOutlined",
+      "isDisplay": "true",
+      "router": "user",
+      "allowedRole": [
+        "1"
+      ]
+    }
+  ],
+  "secondMenu": [
+    {
+      "id": "1",
+      "menuname": "商品列表",
+      "lastGrade": "1",
+      "grade": "2",
+      "menuicon": "BarsOutlined",
+      "isDisplay": "true",
+      "router": "good/goodList",
+      "allowedRole": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "2",
+      "menuname": "添加商品",
+      "lastGrade": "1",
+      "grade": "2",
+      "menuicon": "FileAddOutlined",
+      "isDisplay": "true",
+      "router": "good/goodAdd",
+      "allowedRole": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "3",
+      "menuname": "商品分类",
+      "lastGrade": "1",
+      "grade": "2",
+      "menuicon": "AppstoreOutlined",
+      "isDisplay": "true",
+      "router": "good/goodClassify",
+      "allowedRole": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "4",
+      "menuname": "商品类型",
+      "lastGrade": "1",
+      "grade": "2",
+      "menuicon": "ProfileOutlined",
+      "isDisplay": "true",
+      "router": "good/goodType",
+      "allowedRole": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "5",
+      "menuname": "品牌管理",
+      "lastGrade": "1",
+      "grade": "2",
+      "menuicon": "TagOutlined",
+      "isDisplay": "true",
+      "router": "good/brandMsg",
+      "allowedRole": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "6",
+      "menuname": "订单列表",
+      "lastGrade": "2",
+      "grade": "2",
+      "menuicon": "BarsOutlined",
+      "isDisplay": "true",
+      "router": "order/orderMsg",
+      "allowedRole": [
+        "1",
+        "3"
+      ]
+    },
+    {
+      "id": "7",
+      "menuname": "订单设置",
+      "lastGrade": "2",
+      "grade": "2",
+      "menuicon": "SettingOutlined",
+      "isDisplay": "true",
+      "router": "order/orderSet",
+      "allowedRole": [
+        "1",
+        "3"
+      ]
+    },
+    {
+      "id": "8",
+      "menuname": "用户列表",
+      "lastGrade": "3",
+      "grade": "2",
+      "menuicon": "SolutionOutlined",
+      "isDisplay": "true",
+      "router": "user/userList",
+      "allowedRole": [
+        "1"
+      ]
+    },
+    {
+      "id": "9",
+      "menuname": "角色列表",
+      "lastGrade": "3",
+      "grade": "2",
+      "menuicon": "TeamOutlined",
+      "isDisplay": "true",
+      "router": "user/roleList",
+      "allowedRole": [
+        "1"
+      ]
+    },
+    {
+      "id": "10",
+      "menuname": "菜单列表",
+      "lastGrade": "3",
+      "grade": "2",
+      "menuicon": "ProductOutlined",
+      "isDisplay": "true",
+      "router": "user/menuList",
+      "allowedRole": [
+        "1"
+      ]
+    }
+  ],
+  "receivePerson": [
+    {
+      "username": "收货人1",
+      "userphone": "13128908890",
+      "usercode": "518000",
+      "areaaddress": "北京市海淀区",
+      "detailaddress": "北下关街道北京交通大学",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "username": "收货人2",
+      "userphone": "13128908890",
+      "usercode": "518000",
+      "areaaddress": "北京市海淀区",
+      "detailaddress": "北下关街道北京交通大学"
+    },
+    {
+      "id": "3",
+      "username": "收货人3",
+      "userphone": "13128908890",
+      "usercode": "518000",
+      "areaaddress": "北京市海淀区",
+      "detailaddress": "北下关街道北京交通大学"
+    },
+    {
+      "id": "4",
+      "username": "收货人4",
+      "userphone": "13128908890",
+      "usercode": "518000",
+      "areaaddress": "北京市海淀区",
+      "detailaddress": "北下关街道北京交通大学"
+    },
+    {
+      "id": "5",
+      "username": "收货人5",
+      "userphone": "13128908890",
+      "usercode": "518000",
+      "areaaddress": "北京市海淀区",
+      "detailaddress": "北下关街道北京交通大学"
+    },
+    {
+      "id": "6",
+      "username": "收货人6",
+      "userphone": "13128908890",
+      "usercode": "518000",
+      "areaaddress": "北京市海淀区",
+      "detailaddress": "北下关街道北京交通大学"
+    }
+  ],
+  "orderInfo": [
+    {
+      "id": "1",
+      "orderNum": "20180913010100000",
+      "receivePerson": "1",
+      "userId": "test1",
+      "orderAmount": "￥18100",
+      "orderStatus": "待付款",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "未支付",
+      "submitTime": "2023-12-27 13:27:09",
+      "payTime": "",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "2",
+      "orderNum": "20180913010100001",
+      "receivePerson": "2",
+      "userId": "test1",
+      "orderAmount": "￥18100",
+      "orderStatus": "待发货",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "微信支付",
+      "submitTime": "2023-12-27 13:27:09",
+      "payTime": "2023-12-27 13:27:30",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "3",
+      "orderNum": "20180913010100002",
+      "receivePerson": "3",
+      "userId": "test1",
+      "orderAmount": "￥18100",
+      "orderStatus": "已发货",
+      "deliveryWay": "顺丰快递",
+      "deliveryNum": "201707196398346",
+      "payBy": "支付宝",
+      "submitTime": "2023-12-27 13:27:09",
+      "payTime": "2023-12-27 13:27:30",
+      "deliveryTime": "2023-12-27 20:27:09",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "4",
+      "orderNum": "20180913010100003",
+      "receivePerson": "4",
+      "userId": "test1",
+      "orderAmount": "￥18100",
+      "orderStatus": "已完成",
+      "deliveryWay": "顺丰快递",
+      "deliveryNum": "201707196398345",
+      "payBy": "支付宝",
+      "submitTime": "2023-12-27 13:27:09",
+      "payTime": "2023-12-27 13:27:30",
+      "deliveryTime": "2023-12-27 20:27:09",
+      "receiveTime": "2023-12-30 13:27:09",
+      "commentTime": ""
+    },
+    {
+      "id": "5",
+      "orderNum": "20180913010100004",
+      "receivePerson": "5",
+      "userId": "test1",
+      "orderAmount": "￥18100",
+      "orderStatus": "已关闭",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "未支付",
+      "submitTime": "2023-12-27 13:27:09",
+      "payTime": "",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "6",
+      "orderNum": "20180913010100005",
+      "receivePerson": "6",
+      "userId": "test1",
+      "orderAmount": "￥18100",
+      "orderStatus": "已完成",
+      "deliveryWay": "顺丰快递",
+      "deliveryNum": "201707196398347",
+      "payBy": "微信支付",
+      "submitTime": "2023-12-27 13:27:09",
+      "payTime": "2023-12-27 13:27:30",
+      "deliveryTime": "2023-12-27 19:27:09",
+      "receiveTime": "2023-12-30 13:27:09",
+      "commentTime": "2023-12-30 20:27:09"
+    },
+    {
+      "id": "7",
+      "orderNum": "20180913010100006",
+      "receivePerson": "1",
+      "userId": "test1",
+      "orderAmount": "￥18100",
+      "orderStatus": "待付款",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "未支付",
+      "submitTime": "2024-4-12 13:27:09",
+      "payTime": "",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "8",
+      "orderNum": "20180913010100007",
+      "receivePerson": "1",
+      "userId": "test1",
+      "orderAmount": "￥18100",
+      "orderStatus": "已关闭",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "未支付",
+      "submitTime": "2024-4-12 13:27:09",
+      "payTime": "",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "9",
+      "orderNum": "20180913010100008",
+      "receivePerson": "3",
+      "userId": "test1",
+      "orderAmount": "￥18100",
+      "orderStatus": "待发货",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "微信支付",
+      "submitTime": "2023-12-27 13:27:09",
+      "payTime": "2023-12-27 13:27:30",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "10",
+      "orderNum": "20180913010100009",
+      "receivePerson": "1",
+      "userId": "test1",
+      "orderAmount": "￥18100",
+      "orderStatus": "已发货",
+      "deliveryWay": "中通快递",
+      "deliveryNum": "123456",
+      "payBy": "微信支付",
+      "submitTime": "2023-12-27 13:27:09",
+      "payTime": "2023-12-27 13:27:30",
+      "deliveryTime": "2024-06-08 22:35:19",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "11",
+      "orderNum": "20180913010100010",
+      "receivePerson": "5",
+      "userId": "test1",
+      "orderAmount": "￥18100",
+      "orderStatus": "已发货",
+      "deliveryWay": "京东物流",
+      "deliveryNum": "201707196398348",
+      "payBy": "微信支付",
+      "submitTime": "2023-12-27 13:27:09",
+      "payTime": "2023-12-27 13:27:30",
+      "deliveryTime": "2024-06-08 05:52:03",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "orderNum": 1717923921237,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "待付款",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "未支付",
+      "submitTime": "2024/6/9 17:05:21",
+      "payTime": "",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": "",
+      "id": "12"
+    },
+    {
+      "orderNum": 1717923977832,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "待付款",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "未支付",
+      "submitTime": "2024/6/9 17:06:17",
+      "payTime": "",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": "",
+      "id": "13"
+    },
+    {
+      "id": "14",
+      "orderNum": 1717924920488,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "支付宝",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "已支付",
+      "submitTime": "2024/6/9 17:22:00",
+      "payTime": "2024/6/9 17:22:01",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "orderNum": 1717924933375,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "待付款",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "未支付",
+      "submitTime": "2024/6/9 17:22:13",
+      "payTime": "",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": "",
+      "id": "15"
+    },
+    {
+      "id": "16",
+      "orderNum": 1717924969747,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "支付宝",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "已支付",
+      "submitTime": "2024/6/9 17:22:49",
+      "payTime": "2024/6/9 17:22:58",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "orderNum": 1717925113913,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "待付款",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "未支付",
+      "submitTime": "2024/6/9 17:25:13",
+      "payTime": "",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": "",
+      "id": "17"
+    },
+    {
+      "orderNum": 1717925280472,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "待付款",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "未支付",
+      "submitTime": "2024/6/9 17:28:00",
+      "payTime": "",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": "",
+      "id": "18"
+    },
+    {
+      "id": "19",
+      "orderNum": 1717925319681,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "支付宝",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "已支付",
+      "submitTime": "2024/6/9 17:28:39",
+      "payTime": "2024/6/9 17:28:40",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "20",
+      "orderNum": 1717925409350,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "支付宝",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "已支付",
+      "submitTime": "2024/6/9 17:30:09",
+      "payTime": "2024/6/9 17:30:10",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "21",
+      "orderNum": 1717925432402,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "支付宝",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "已支付",
+      "submitTime": "2024/6/9 17:30:32",
+      "payTime": "2024/6/9 17:30:38",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "22",
+      "orderNum": 1717925479395,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "支付宝",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "已支付",
+      "submitTime": "2024/6/9 17:31:19",
+      "payTime": "2024/6/9 17:31:20",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "23",
+      "orderNum": 1717925595741,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "支付宝",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "已支付",
+      "submitTime": "2024/6/9 17:33:15",
+      "payTime": "2024/6/9 17:33:16",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "24",
+      "orderNum": 1717925627413,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "支付宝",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "已支付",
+      "submitTime": "2024/6/9 17:33:47",
+      "payTime": "2024/6/9 17:33:48",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "25",
+      "orderNum": 1717926359714,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "支付宝",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "已支付",
+      "submitTime": "2024/6/9 17:45:59",
+      "payTime": "2024/6/9 17:46:01",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "26",
+      "orderNum": 1717926539764,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "支付宝",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "已支付",
+      "submitTime": "2024/6/9 17:48:59",
+      "payTime": "2024/6/9 17:49:01",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "27",
+      "orderNum": 1717926596746,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "支付宝",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "已支付",
+      "submitTime": "2024/6/9 17:49:56",
+      "payTime": "2024/6/9 17:49:57",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    },
+    {
+      "id": "28",
+      "orderNum": 1717927020239,
+      "receivePerson": "2",
+      "userId": "2",
+      "orderAmount": "￥1000.00",
+      "orderStatus": "支付宝",
+      "deliveryWay": "暂无",
+      "deliveryNum": "暂无",
+      "payBy": "已支付",
+      "submitTime": "2024/6/9 17:57:00",
+      "payTime": "2024/6/9 17:57:01",
+      "deliveryTime": "",
+      "receiveTime": "",
+      "commentTime": ""
+    }
+  ],
+  "deliveryInfo": [
+    {
+      "id": "1",
+      "deliveryNum": "201707196398345",
+      "submit": "订单已提交，等待付款",
+      "pay": "订单付款成功",
+      "transfer1": "在北京市进行下级地点扫描",
+      "transfer1Time": "2017-04-01 12:00:00",
+      "transfer2": "在分拨中心广东深圳公司进行卸车扫描",
+      "transfer2Time": "2017-04-01 12:00:00",
+      "transfer3": "在广东深圳公司进行发出扫描",
+      "transfer3Time": "2017-04-01 12:00:00",
+      "transfer4": "到达目的地网点广东深圳公司，快件将很快进行派送",
+      "transfer4Time": "2017-04-01 12:00:00",
+      "send": "商品派送中",
+      "sendTime": "2017-04-01 12:00:00",
+      "signFor": "订单已签收"
+    },
+    {
+      "id": "2",
+      "deliveryNum": "201707196398346",
+      "submit": "订单已提交，等待付款",
+      "pay": "订单付款成功",
+      "transfer1": "在北京市进行下级地点扫描",
+      "transfer1Time": "2020-04-01 12:00:00",
+      "transfer2": "在分拨中心广东深圳公司进行卸车扫描",
+      "transfer2Time": "2020-04-01 12:00:00",
+      "transfer3": "在广东深圳公司进行发出扫描",
+      "transfer3Time": "2020-04-01 12:00:00",
+      "transfer4": "到达目的地网点广东深圳公司，快件将很快进行派送",
+      "transfer4Time": "2020-04-01 12:00:00",
+      "send": "商品派送中",
+      "sendTime": "2020-04-01 12:00:00",
+      "signFor": "订单已签收"
+    },
+    {
+      "id": "3",
+      "deliveryNum": "201707196398347",
+      "submit": "订单已提交，等待付款",
+      "pay": "订单付款成功",
+      "transfer1": "在北京市进行下级地点扫描",
+      "transfer1Time": "2024-04-01 12:00:00",
+      "transfer2": "在分拨中心广东深圳公司进行卸车扫描",
+      "transfer2Time": "2024-04-01 12:00:00",
+      "transfer3": "在广东深圳公司进行发出扫描",
+      "transfer3Time": "2024-04-01 12:00:00",
+      "transfer4": "到达目的地网点广东深圳公司，快件将很快进行派送",
+      "transfer4Time": "2024-04-01 12:00:00",
+      "send": "商品派送中",
+      "sendTime": "2024-04-01 12:00:00",
+      "signFor": "订单已签收"
+    },
+    {
+      "id": "4",
+      "deliveryNum": "201707196398348",
+      "submit": "订单已提交，等待付款",
+      "pay": "订单付款成功",
+      "transfer1": "",
+      "transfer1Time": "",
+      "transfer2": "",
+      "transfer2Time": "",
+      "transfer3": "",
+      "transfer3Time": "",
+      "transfer4": "",
+      "transfer4Time": "",
+      "send": "",
+      "sendTime": "",
+      "signFor": ""
+    },
+    {
+      "id": "5",
+      "deliveryNum": "123456",
+      "submit": "订单已提交，等待付款",
+      "pay": "订单付款成功",
+      "transfer1": "",
+      "transfer1Time": "",
+      "transfer2": "",
+      "transfer2Time": "",
+      "transfer3": "",
+      "transfer3Time": "",
+      "transfer4": "",
+      "transfer4Time": "",
+      "send": "",
+      "sendTime": "",
+      "signFor": ""
+    },
+    {
+      "id": "25",
+      "deliveryNum": "1717926359714",
+      "submit": "订单已提交，等待付款",
+      "pay": "",
+      "transfer1": "",
+      "transfer1Time": "",
+      "transfer2": "",
+      "transfer2Time": "",
+      "transfer3": "",
+      "transfer3Time": "",
+      "transfer4": "",
+      "transfer4Time": "",
+      "send": "",
+      "sendTime": "",
+      "signFor": ""
+    },
+    {
+      "id": "26",
+      "deliveryNum": "1717926539764",
+      "submit": "订单已提交，等待付款",
+      "pay": "订单付款成功",
+      "transfer1": "",
+      "transfer1Time": "",
+      "transfer2": "",
+      "transfer2Time": "",
+      "transfer3": "",
+      "transfer3Time": "",
+      "transfer4": "",
+      "transfer4Time": "",
+      "send": "",
+      "sendTime": "",
+      "signFor": "",
+      "payTime": "2024/6/9 17:49:01"
+    },
+    {
+      "id": "27",
+      "deliveryNum": "1717926596746",
+      "submit": "订单已提交，等待付款",
+      "pay": "订单付款成功",
+      "transfer1": "",
+      "transfer1Time": "",
+      "transfer2": "",
+      "transfer2Time": "",
+      "transfer3": "",
+      "transfer3Time": "",
+      "transfer4": "",
+      "transfer4Time": "",
+      "send": "",
+      "sendTime": "",
+      "signFor": ""
+    },
+    {
+      "id": "28",
+      "deliveryNum": "1717927020239",
+      "submit": "订单已提交，等待付款",
+      "pay": "订单付款成功",
+      "transfer1": "",
+      "transfer1Time": "",
+      "transfer2": "",
+      "transfer2Time": "",
+      "transfer3": "",
+      "transfer3Time": "",
+      "transfer4": "",
+      "transfer4Time": "",
+      "send": "",
+      "sendTime": "",
+      "signFor": ""
+    }
+  ],
+  "goods": [
+    {
+      "id": "1",
+      "image": "cate1.jpg",
+      "firstClassify": "2",
+      "secondClassify": "11",
+      "stockDetails": [
+        {
+          "color": "黑色",
+          "size": "52GB",
+          "price": 1000,
+          "stock": 10,
+          "sku": "1717677889078"
+        },
+        {
+          "color": "黑色",
+          "size": "52GB",
+          "price": 1000,
+          "stock": 10,
+          "sku": "1717677889078"
+        }
+      ],
+      "sales": 0,
+      "name": "华为 HUAWEI P21",
+      "brand": "华为",
+      "price": "3975",
+      "stock": "101",
+      "isPutaway": "true",
+      "isNew": "true",
+      "isRecommend": "true",
+      "auditStatus": "未审核"
+    },
+    {
+      "id": "2",
+      "image": "/src/assets/pic/OIP-C (2).jpg",
+      "firstClassify": "2",
+      "secondClassify": "11",
+      "stockDetails": [],
+      "sales": 0,
+      "name": "小米 HUAWEI P21",
+      "brand": "小米",
+      "price": "1000",
+      "stock": "101",
+      "isPutaway": "true",
+      "isNew": "true",
+      "isRecommend": "true",
+      "auditStatus": "已审核"
+    },
+    {
+      "id": "d508",
+      "image": "/src/assets/pic/R.jpg",
+      "firstClassify": "1",
+      "secondClassify": "10",
+      "stockDetails": [],
+      "sales": 0,
+      "name": "炫彩T恤",
+      "brand": "优衣库",
+      "price": 50,
+      "stock": 15,
+      "isPutaway": "true",
+      "isNew": "true",
+      "isRecommend": "false",
+      "auditStatus": "已审核"
+    }
+  ],
+  "firstClassify": [
+    {
+      "id": "1",
+      "classifyname": "服装",
+      "grade": "1",
+      "isDisplay": "true",
+      "goodsNum": "100",
+      "unit": "件"
+    },
+    {
+      "id": "2",
+      "classifyname": "手机数码",
+      "grade": "1",
+      "isDisplay": "true",
+      "goodsNum": "0",
+      "unit": "个"
+    }
+  ],
+  "secondClassify": [
+    {
+      "id": "10",
+      "classifyname": "外套",
+      "grade": "2",
+      "isDisplay": "true",
+      "goodsNum": "100",
+      "unit": "件",
+      "lastGrade": "1"
+    },
+    {
+      "id": "11",
+      "classifyname": "手机通讯",
+      "lastGrade": "2",
+      "grade": "2",
+      "isDisplay": "true",
+      "goodsNum": "0",
+      "unit": "个"
+    }
+  ],
+  "orderGood": [
+    {
+      "id": "1",
+      "orderNum": "20180913010100000",
+      "goodId": "1",
+      "number": "4",
+      "thisAmount": "15900"
+    },
+    {
+      "id": "2",
+      "orderNum": "20180913010100000",
+      "goodId": "2",
+      "number": "2",
+      "thisAmount": "2000"
+    },
+    {
+      "id": "3",
+      "orderNum": "20180913010100000",
+      "goodId": "d508",
+      "number": "4",
+      "thisAmount": "200"
+    },
+    {
+      "id": "4",
+      "orderNum": "20180913010100001",
+      "goodId": "1",
+      "number": "4",
+      "thisAmount": "15900"
+    },
+    {
+      "id": "5",
+      "orderNum": "20180913010100001",
+      "goodId": "2",
+      "number": "2",
+      "thisAmount": "2000"
+    },
+    {
+      "id": "6",
+      "orderNum": "20180913010100001",
+      "goodId": "d508",
+      "number": "4",
+      "thisAmount": "200"
+    },
+    {
+      "id": "7",
+      "orderNum": "20180913010100002",
+      "goodId": "1",
+      "number": "4",
+      "thisAmount": "15900"
+    },
+    {
+      "id": "8",
+      "orderNum": "20180913010100002",
+      "goodId": "2",
+      "number": "2",
+      "thisAmount": "2000"
+    },
+    {
+      "id": "9",
+      "orderNum": "20180913010100002",
+      "goodId": "d508",
+      "number": "4",
+      "thisAmount": "200"
+    },
+    {
+      "id": "10",
+      "orderNum": "20180913010100003",
+      "goodId": "1",
+      "number": "4",
+      "thisAmount": "15900"
+    },
+    {
+      "id": "11",
+      "orderNum": "20180913010100003",
+      "goodId": "2",
+      "number": "2",
+      "thisAmount": "2000"
+    },
+    {
+      "id": "12",
+      "orderNum": "20180913010100003",
+      "goodId": "d508",
+      "number": "4",
+      "thisAmount": "200"
+    },
+    {
+      "id": "13",
+      "orderNum": "20180913010100004",
+      "goodId": "1",
+      "number": "4",
+      "thisAmount": "15900"
+    },
+    {
+      "id": "14",
+      "orderNum": "20180913010100004",
+      "goodId": "2",
+      "number": "2",
+      "thisAmount": "2000"
+    },
+    {
+      "id": "15",
+      "orderNum": "20180913010100004",
+      "goodId": "d508",
+      "number": "4",
+      "thisAmount": "200"
+    },
+    {
+      "id": "16",
+      "orderNum": "20180913010100005",
+      "goodId": "1",
+      "number": "4",
+      "thisAmount": "15900"
+    },
+    {
+      "id": "17",
+      "orderNum": "20180913010100005",
+      "goodId": "2",
+      "number": "2",
+      "thisAmount": "2000"
+    },
+    {
+      "id": "18",
+      "orderNum": "20180913010100005",
+      "goodId": "d508",
+      "number": "4",
+      "thisAmount": "200"
+    },
+    {
+      "id": "19",
+      "orderNum": "20180913010100006",
+      "goodId": "1",
+      "number": "4",
+      "thisAmount": "15900"
+    },
+    {
+      "id": "20",
+      "orderNum": "20180913010100006",
+      "goodId": "2",
+      "number": "2",
+      "thisAmount": "2000"
+    },
+    {
+      "id": "21",
+      "orderNum": "20180913010100006",
+      "goodId": "d508",
+      "number": "4",
+      "thisAmount": "200"
+    },
+    {
+      "id": "22",
+      "orderNum": "20180913010100007",
+      "goodId": "1",
+      "number": "4",
+      "thisAmount": "15900"
+    },
+    {
+      "id": "23",
+      "orderNum": "20180913010100007",
+      "goodId": "2",
+      "number": "2",
+      "thisAmount": "2000"
+    },
+    {
+      "id": "24",
+      "orderNum": "20180913010100007",
+      "goodId": "d508",
+      "number": "4",
+      "thisAmount": "200"
+    },
+    {
+      "id": "25",
+      "orderNum": "20180913010100008",
+      "goodId": "1",
+      "number": "4",
+      "thisAmount": "15900"
+    },
+    {
+      "id": "26",
+      "orderNum": "20180913010100008",
+      "goodId": "2",
+      "number": "2",
+      "thisAmount": "2000"
+    },
+    {
+      "id": "27",
+      "orderNum": "20180913010100008",
+      "goodId": "d508",
+      "number": "4",
+      "thisAmount": "200"
+    },
+    {
+      "id": "28",
+      "orderNum": "20180913010100009",
+      "goodId": "1",
+      "number": "4",
+      "thisAmount": "15900"
+    },
+    {
+      "id": "29",
+      "orderNum": "20180913010100009",
+      "goodId": "2",
+      "number": "2",
+      "thisAmount": "2000"
+    },
+    {
+      "id": "30",
+      "orderNum": "20180913010100009",
+      "goodId": "d508",
+      "number": "4",
+      "thisAmount": "200"
+    },
+    {
+      "id": "31",
+      "orderNum": "20180913010100010",
+      "goodId": "1",
+      "number": "4",
+      "thisAmount": "15900"
+    },
+    {
+      "id": "32",
+      "orderNum": "20180913010100010",
+      "goodId": "2",
+      "number": "2",
+      "thisAmount": "2000"
+    },
+    {
+      "id": "33",
+      "orderNum": "20180913010100010",
+      "goodId": "d508",
+      "number": "4",
+      "thisAmount": "200"
+    }
+  ]
+}
