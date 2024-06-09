@@ -1,51 +1,114 @@
-import React, { useContext, useState } from 'react';
+import 'antd/dist/reset.css'; // 导入 Ant Design 样式
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import useLoginCheck from '../hook/LoginCheck';
 import { ServiceContext } from '../contexts/ServiceContext';
-import { Card, Typography, Divider, Input, Button, Select, Form, Space, Row, Col } from 'antd';
+import { Card, Typography, Divider, Input, Button, Form, Space, Row, Col, Spin, message } from 'antd';
 import TopNavBar from '../components/TopNavBar'; // 导入封装好的组件
 import { EnvironmentOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
-const { Option } = Select;
 
 const CreateOrderPage = () => {
   useLoginCheck();
   const { goodId, type, number } = useParams();
   const services = useContext(ServiceContext);
   const parsedGoodId = parseInt(goodId, 10);
-  const parsedquantityId = parseInt(number);
+  const parsedquantityId = parseInt(number, 10);
   const parsedTypeId = parseInt(type, 10);
-  const good = services.good.getGoodById(parsedGoodId);
-  const user = services.user.getCurrentUser();
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  let price = good.types[parsedTypeId - 1].typePrice * parsedquantityId;
 
-  const onSubmitClick = (values) => {
-    // 1. 创建订单，拿到orderid
-    const parsedGoodId = parseInt(goodId, 10);
-    const good = services.good.getGoodById(parsedGoodId);
-    const useId = services.user.getCurrentUser().id;
-    good.buynum = good.buynum + 1;
-    if (!good)
+  // 管理商品和用户数据的状态
+  const [good, setGood] = useState(null);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try
+      {
+        setLoading(true); // 开始加载时设置 loading
+        setError(null); // 重置错误状态
+
+        // 异步获取商品数据
+        const fetchedGood = await services.good.getGoodById(parsedGoodId);
+        setGood(fetchedGood);
+
+        // 异步获取用户数据
+        const currentUser = services.user.getCurrentUser();
+        setUser(currentUser);
+
+        if (!fetchedGood || !currentUser)
+        {
+          message.error('商品或用户信息获取失败');
+          navigate('/home');
+        }
+      } catch (error)
+      {
+        setError(error);
+      } finally
+      {
+        setLoading(false); // 请求完成，取消加载状态
+      }
+    };
+
+    fetchData();
+  }, [parsedGoodId, services.good, services.user, navigate]);
+
+  const onSubmitClick = async (values) => {
+    try
     {
-      //TBD 跳转主页
-      alert('商品不存在');
-      navigate('/home');
-      return;
+      if (!good || !user)
+      {
+        throw new Error('商品或用户信息不可用');
+      }
+
+      // 1. 创建订单
+      const order = await services.order.createOrder(
+        user.id,
+        parsedGoodId,
+        good.types[parsedTypeId - 1].typePrice * parsedquantityId,
+        parsedTypeId,
+        parsedquantityId,
+        values.remarks
+      );
+      console.log(order)
+
+      // 2. 提示下单成功并跳转到支付页面
+      message.success('下单成功，请支付！');
+      navigate(`/pay/${order.id}`);
+    } catch (error)
+    {
+      console.error('创建订单失败:', error);
+      message.error('创建订单失败，请重试');
     }
-    const order = services.order.createOrder(useId, parsedGoodId, price, parsedTypeId, parsedquantityId, values.remarks);
-    // 2. 跳转到支付页面
-    alert('下单成功，请支付！');
-    navigate(`/pay/${order.id}`);
   };
 
   const goBack = () => {
     navigate(-1); // Navigate back to the previous page
   };
 
+  if (loading)
+  {
+    return <Spin tip="Loading..." style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }} />;
+  }
+
+  if (error)
+  {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (!good || !user)
+  {
+    // 如果未找到商品或用户，跳转到主页或显示“未找到”信息
+    navigate('/home');
+    return null;
+  }
+
   const images = require(`../static/temp/${good.img[parsedTypeId - 1]}`);
+  const price = good.types[parsedTypeId - 1].typePrice * parsedquantityId;
 
   return (
     <>
@@ -69,7 +132,7 @@ const CreateOrderPage = () => {
           <Title level={4}>商品详情</Title>
           <Divider />
           <div className="co-item">
-            <img src={images} className="co-item-img" />
+            <img src={images} className="co-item-img" alt={good.name} />
             <div>
               <Text strong>{good.name}</Text>
               <br />
