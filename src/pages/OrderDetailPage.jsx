@@ -103,6 +103,10 @@ const OrderDetailPage = () => {
     navigate(-1); // Navigate back to the previous page
   };
 
+  const goToDeliveryDetail = () => {
+    navigate(`/deliverydetail/${orderId}`); // Navigate to the DeliveryDetailPage
+  };
+
   if (loading)
   {
     return (
@@ -190,6 +194,8 @@ const OrderDetailPage = () => {
               <Text>{order.remarks}</Text>
             </div>
           </Form>
+          <Divider />
+          <Button type="primary" onClick={goToDeliveryDetail}>查看配送详情</Button>
         </Card>
       </div>
     </>

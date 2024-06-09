@@ -109,12 +109,12 @@ const defaultList = [
 class OrderService {
   list = [];
   baseUrl = '/api/orders';
+  deliveryBaseUrl = '/api/deliveries';
 
   constructor() {
     this._loadData();
   }
 
-  // 创建订单
   async createOrder (userId, goodId, price, type, quantity, remarksValue) {
     const orderNo = new Date().getTime();
 
@@ -135,16 +135,16 @@ class OrderService {
 
     try
     {
-      // 发送 POST 请求到服务器
+      // 发送 POST 请求到服务器以创建订单
       const response = await axios.post(this.baseUrl, newOrderBackend);
-      console.log(newOrderBackend)
-      // 将响应的数据转换为前端格式
       const createdOrder = this.convertToFrontendFormat(response.data);
 
-      // 更新本地的订单列表
+      // 创建对应的 deliveryInfo
+      await this.createDeliveryInfo(createdOrder.id, createdOrder.orderNo);
+
+      // 更新本地订单列表
       this.list.push(createdOrder);
 
-      // 返回转换后的订单
       return createdOrder;
     } catch (error)
     {
@@ -153,41 +153,97 @@ class OrderService {
     }
   }
 
+  // 创建默认的 deliveryInfo
+  async createDeliveryInfo (orderId, orderNo) {
+    const defaultDeliveryInfo = {
+      id: orderId.toString(), // 使用订单ID作为 deliveryInfo 的 ID
+      deliveryNum: orderNo.toString(), // 使用订单号作为配送编号
+      submit: '订单已提交，等待付款',
+      pay: '',
+      transfer1: '',
+      transfer1Time: '',
+      transfer2: '',
+      transfer2Time: '',
+      transfer3: '',
+      transfer3Time: '',
+      transfer4: '',
+      transfer4Time: '',
+      send: '',
+      sendTime: '',
+      signFor: ''
+    };
+
+    try
+    {
+      await axios.post(this.deliveryBaseUrl, defaultDeliveryInfo);
+    } catch (error)
+    {
+      console.error('Error creating delivery info:', error);
+    }
+  }
+
+
   async payOrder (orderId, type) {
     try
     {
-      const order = this.getOrderById(orderId);
+      // 获取订单
+      const order = await this.getOrderById(orderId);
       if (!order)
       {
         return false;
       }
 
-      if (type == '微信支付')
+      // 更新订单状态
+      if (type === '微信支付')
       {
-        order.status = 5;
+        order.status = 5; // 假设状态码 5 表示微信支付成功
       } else
       {
-        order.status = 6;
+        order.status = 6; // 假设状态码 6 表示其他支付方式成功
       }
       order.payTime = new Date().toLocaleString();
+
       // 转换为后端格式
       const updatedOrderBackend = this.convertToDatabaseFormat(order);
-      console.log(updatedOrderBackend)
+
+      // 更新订单信息
       const response = await axios.put(`${this.baseUrl}/${orderId}`, updatedOrderBackend);
       const updatedOrder = response.data;
 
-      // 更新本地数据
+      // 更新本地订单数据
       const index = this.list.findIndex(item => item.id === orderId);
       if (index !== -1)
       {
         this.list[index] = updatedOrder;
       }
 
+      // 获取对应的 deliveryInfo
+      const deliveryResponse = await axios.get(`${this.deliveryBaseUrl}/${orderId}`);
+      const deliveryInfo = deliveryResponse.data;
+
+      // 更新 deliveryInfo 的 `pay` 字段
+      deliveryInfo.pay = "订单付款成功";
+
+      // 发送更新请求到服务器
+      await axios.put(`${this.deliveryBaseUrl}/${orderId}`, deliveryInfo);
+
       return true;
     } catch (error)
     {
       console.error('Error paying order:', error);
       return false;
+    }
+  }
+
+  async getDeliveryByOrderId (orderId) {
+    try
+    {
+      const response = await axios.get(`${this.deliveryBaseUrl}/${orderId}`);
+      return response.data;
+    } catch (error)
+    {
+      console.error(`Error fetching delivery info for order ID ${orderId}:`, error);
+      throw error;
     }
   }
 

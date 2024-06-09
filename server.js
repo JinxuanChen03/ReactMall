@@ -150,6 +150,52 @@ app.delete('/api/orders/:id', (req, res) => {
   });
 });
 
+// 添加新的 deliveryInfo
+app.post('/api/deliveries', (req, res) => {
+  const newDelivery = req.body;
+
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+
+    // 添加新的 deliveryInfo
+    db.deliveryInfo.push(newDelivery);
+    fs.writeFile(dbPath, JSON.stringify(db, null, 2), 'utf-8', (err) => {
+      if (err) return res.status(500).send('Error writing file');
+      res.status(201).json(newDelivery);
+    });
+  });
+});
+
+// 根据订单ID获取 deliveryInfo
+app.get('/api/deliveries/:orderId', (req, res) => {
+  const { orderId } = req.params;
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    const deliveryInfo = db.deliveryInfo.find(d => d.id === orderId);
+    if (!deliveryInfo) return res.status(404).send('Delivery info not found');
+    res.json(deliveryInfo);
+  });
+});
+
+// 更新 deliveryInfo
+app.put('/api/deliveries/:orderId', (req, res) => {
+  const { orderId } = req.params;
+  const updatedDelivery = req.body;
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    const index = db.deliveryInfo.findIndex(d => d.id === orderId);
+    if (index === -1) return res.status(404).send('Delivery info not found');
+    db.deliveryInfo[index] = { ...db.deliveryInfo[index], ...updatedDelivery };
+    fs.writeFile(dbPath, JSON.stringify(db, null, 2), 'utf-8', (err) => {
+      if (err) return res.status(500).send('Error writing file');
+      res.json(updatedDelivery);
+    });
+  });
+});
+
 // 启动服务器
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
