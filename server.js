@@ -196,7 +196,19 @@ app.put('/api/deliveries/:orderId', (req, res) => {
   });
 });
 
-// 启动服务器
+//获取某一类别的商品，一级类别
+app.get('/api/goods', (req, res) => {
+  const { firstClassify } = req.query;
+  console.log('请求参数:', firstClassify); // 打印请求参数
+  if (!firstClassify) {
+    return res.status(400).json({ error: '必须提供 firstClassify 参数' });
+  }
+  const filteredGoods = goods.filter(g => g.category === firstClassify);
+  res.json(filteredGoods);
+});
+
+
+// 启动服务器 node server.js
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

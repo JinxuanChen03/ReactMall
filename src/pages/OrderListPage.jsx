@@ -33,7 +33,8 @@ import { Button, Card, List, Tabs, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { ServiceContext } from '../contexts/ServiceContext';
 import useLoginCheck from '../hook/LoginCheck';
-import TopNavBar from '../components/TopNavBar'; // 导入封装好的组件
+import TopNavBar from '../components/TopNavBar';
+import BottomNav from "../components/BottomNav"; // 导入封装好的组件
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
