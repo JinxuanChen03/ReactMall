@@ -12,15 +12,19 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (values) => {
-    try {
+    try
+    {
       const { username, password } = values;
       const loggedIn = await user.validateLogin(username, password); // 调用登录服务
-      if (loggedIn) {
+      if (loggedIn)
+      {
         navigate('/home'); // 登录成功后重定向到主页
-      } else {
+      } else
+      {
         message.error('登录失败，请检查您的用户名和密码是否正确！');
       }
-    } catch (error) {
+    } catch (error)
+    {
       message.error('登录过程中出现错误，请稍后重试。');
       console.error('Login error:', error);
     }
@@ -45,7 +49,7 @@ const LoginPage = () => {
             name="username"
             rules={[{ required: true, message: '请输入用户名' }]}
           >
-            <Input 
+            <Input
               value={username}
               onChange={e => setUsername(e.target.value)}
             />
@@ -55,7 +59,7 @@ const LoginPage = () => {
             name="password"
             rules={[{ required: true, message: '请输入密码' }]}
           >
-            <Input.Password 
+            <Input.Password
               value={password}
               onChange={e => setPassword(e.target.value)}
             />

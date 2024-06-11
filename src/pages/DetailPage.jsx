@@ -67,7 +67,7 @@ const DetailPage = () => {
   };
 
   const onAddToCartClick = () => {
-    services.cart.addToCart(userId, good, selectedQuantity, selectedType);
+    services.cart.addToCart(userId, good.id, selectedQuantity, selectedType);
     message.success('已成功加入购物车');
   };
 

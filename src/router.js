@@ -12,7 +12,7 @@ import RegisterPage from "./pages/RegisterPage";
 import DeliveryDetailPage from "./pages/DeliveryDetailPage";
 import CategoryPage from "./pages/CategoryPage";
 import UserPage from "./pages/UserPage";
-
+import AddressManagementPage from "./pages/AddressManagementPage"
 const router = createBrowserRouter([
   {
     path: "/",
@@ -69,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "cartList",
         element: <CartListPage />
+      },
+      {
+        path: "address",
+        element: <AddressManagementPage />
       }
     ]
   }

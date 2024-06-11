@@ -115,11 +115,21 @@ class OrderService {
     this._loadData();
   }
 
-  async createOrder (userId, goodId, price, type, quantity, remarksValue) {
+  async createOrder (userId, rId, goodId, price, type, quantity, remarksValue) {
     const orderNo = new Date().getTime();
-
+    //这里加一个存储rId到receiveperson，然后获取存储的id，赋值给rId
+    //创建地址信息
+    // const newAddress = {
+    //   username: selectedAddress.username, // 示例数据，实际中应从用户输入获取
+    //   userphone: selectedAddress.userphone,
+    //   areaaddress: selectedAddress.areaaddress,
+    //   detailaddress: selectedAddress.detailaddress,
+    //   usercode: "518000",
+    //   userId: user.id // 关联到当前用户
+    // };
     const newOrderFrontend = {
       userId,
+      rId,
       goodId,
       orderNo,
       createTime: new Date().toLocaleString(),
@@ -312,6 +322,7 @@ class OrderService {
     return {
       id: parseInt(dbOrder.id, 10),
       userId: dbOrder.userId,
+      rId: dbOrder.receivePerson,
       orderNo: dbOrder.orderNum,
       createTime: dbOrder.submitTime,
       payTime: dbOrder.payTime || null,
@@ -329,7 +340,7 @@ class OrderService {
     return {
       id: frontendOrder.id ? frontendOrder.id.toString() : undefined, // id 可能在创建时不存在
       orderNum: frontendOrder.orderNo,
-      receivePerson: frontendOrder.userId.toString(), // 假设用户ID就是接收人ID
+      receivePerson: frontendOrder.rId.toString(), // 接收人ID
       userId: frontendOrder.userId.toString(),
       orderAmount: `￥${frontendOrder.price.toFixed(2)}`,
       orderStatus: this._convertStatusToString(frontendOrder.status),

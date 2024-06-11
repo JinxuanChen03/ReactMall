@@ -5,7 +5,7 @@ import { ServiceContext } from '../contexts/ServiceContext';
 import useLoginCheck from '../hook/LoginCheck';
 import TopNavBar from '../components/TopNavBar'; // 导入封装好的组件
 import { useNavigate } from 'react-router-dom';
-
+import BottomNav from '../components/BottomNav';
 const { Title, Text } = Typography;
 
 const CartListPage = () => {
@@ -179,6 +179,7 @@ const CartListPage = () => {
             </div>
           </Card>
         </div>
+        <BottomNav style={{ flex: 0.2 }} />
       </div>
     </>
   );

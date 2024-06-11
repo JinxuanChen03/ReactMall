@@ -205,12 +205,96 @@ app.get('/api/goods', (req, res) => {
     const db = JSON.parse(data);
     let goods = db.goods;
     console.log('goods.firstClassify:', goods.firstClassify);
-    if (firstClassify) {
+    if (firstClassify)
+    {
       goods = goods.filter(g => g.firstClassify === firstClassify);
     }
     res.json(goods);
   });
 });
+
+// 添加 receivePerson 的增删改查
+
+// 获取指定用户ID的所有地址
+app.get('/api/receivePerson/:userId', (req, res) => {
+  const { userId } = req.params;
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    const addresses = db.receivePerson.filter(r => r.userId === parseInt(userId, 10));
+    res.json(addresses);
+  });
+});
+
+// 获取指定ID的收货地址
+app.get('/api/receivePerson/address/:id', (req, res) => {
+  const { id } = req.params;
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    const address = db.receivePerson.find(addr => addr.id === id);
+    if (!address)
+    {
+      return res.status(404).send('Address not found');
+    }
+    res.json(address);
+  });
+});
+
+// 添加新的 receivePerson
+app.post('/api/receivePerson', (req, res) => {
+  const newReceivePerson = req.body;
+
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+
+    // 找到当前最大的 id
+    const maxId = db.receivePerson.reduce((max, person) => Math.max(max, parseInt(person.id, 10)), 0);
+    // 为新收货人生成新的 id
+    newReceivePerson.id = (maxId + 1).toString();
+
+    db.receivePerson.push(newReceivePerson);
+    fs.writeFile(dbPath, JSON.stringify(db, null, 2), 'utf-8', (err) => {
+      if (err) return res.status(500).send('Error writing file');
+      res.status(201).json(newReceivePerson);
+    });
+  });
+});
+
+// 更新 receivePerson
+app.put('/api/receivePerson/:id', (req, res) => {
+  const { id } = req.params;
+  const updatedReceivePerson = req.body;
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    const index = db.receivePerson.findIndex(r => r.id === id);
+    if (index === -1) return res.status(404).send('Receive person not found');
+    db.receivePerson[index] = { ...db.receivePerson[index], ...updatedReceivePerson };
+    fs.writeFile(dbPath, JSON.stringify(db, null, 2), 'utf-8', (err) => {
+      if (err) return res.status(500).send('Error writing file');
+      res.json(updatedReceivePerson);
+    });
+  });
+});
+
+// 删除 receivePerson
+app.delete('/api/receivePerson/:id', (req, res) => {
+  const { id } = req.params;
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    db.receivePerson = db.receivePerson.filter(r => r.id !== id);
+    fs.writeFile(dbPath, JSON.stringify(db, null, 2), 'utf-8', (err) => {
+      if (err) return res.status(500).send('Error writing file');
+      res.status(204).send();
+    });
+  });
+});
+
+
+
 
 
 // 启动服务器 node server.js

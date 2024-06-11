@@ -3,9 +3,10 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import useLoginCheck from '../hook/LoginCheck';
 import { ServiceContext } from '../contexts/ServiceContext';
-import { Card, Typography, Divider, Input, Button, Form, Space, Row, Col, Spin, message } from 'antd';
+import { Card, Typography, Divider, Input, Button, Form, Row, Col, Spin, message } from 'antd';
 import TopNavBar from '../components/TopNavBar'; // 导入封装好的组件
 import { EnvironmentOutlined } from '@ant-design/icons';
+import AddressSelectorModal from '../components/AddressSelectorModal'; // 导入 AddressSelectorModal 组件
 
 const { Title, Text } = Typography;
 
@@ -14,7 +15,7 @@ const CreateOrderPage = () => {
   const { goodId, type, number } = useParams();
   const services = useContext(ServiceContext);
   const parsedGoodId = parseInt(goodId, 10);
-  const parsedquantityId = parseInt(number, 10);
+  const parsedQuantity = parseInt(number, 10);
   const parsedTypeId = parseInt(type, 10);
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -24,6 +25,8 @@ const CreateOrderPage = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [addresses, setAddresses] = useState([]); // 状态用于存储地址信息
+  const [selectedAddress, setSelectedAddress] = useState(null); // 状态用于存储选中的地址
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +47,17 @@ const CreateOrderPage = () => {
         {
           message.error('商品或用户信息获取失败');
           navigate('/home');
+          return;
         }
+
+        // 异步获取地址信息
+        const userAddresses = services.user.getLocalAddressesByUserId(user.id);
+        setAddresses(userAddresses);
+        if (userAddresses.length > 0)
+        {
+          setSelectedAddress(userAddresses[0]); // 默认选中第一个地址
+        }
+
       } catch (error)
       {
         setError(error);
@@ -57,24 +70,40 @@ const CreateOrderPage = () => {
     fetchData();
   }, [parsedGoodId, services.good, services.user, navigate]);
 
+  const handleAddressSelect = (address) => {
+    console.log(address)
+    setSelectedAddress(address);
+  };
+
   const onSubmitClick = async (values) => {
     try
     {
-      if (!good || !user)
+      if (!good || !user || !selectedAddress)
       {
-        throw new Error('商品或用户信息不可用');
+        throw new Error('商品、用户或地址信息不可用');
       }
-
+      //创建地址信息
+      const newAddress = {
+        username: selectedAddress.username, // 示例数据，实际中应从用户输入获取
+        userphone: selectedAddress.userphone,
+        areaaddress: selectedAddress.areaaddress,
+        detailaddress: selectedAddress.detailaddress,
+        usercode: "518000",
+        userId: user.id // 关联到当前用户
+      };
+      const ttt = await services.user.addReceivePerson(newAddress)
+      console.log(ttt);
       // 1. 创建订单
       const order = await services.order.createOrder(
         user.id,
+        ttt.id,
         parsedGoodId,
-        good.types[parsedTypeId - 1].typePrice * parsedquantityId,
+        good.types[parsedTypeId - 1].typePrice * parsedQuantity,
         parsedTypeId,
-        parsedquantityId,
+        parsedQuantity,
         values.remarks
       );
-      console.log(order)
+      console.log(order);
 
       // 2. 提示下单成功并跳转到支付页面
       message.success('下单成功，请支付！');
@@ -108,7 +137,7 @@ const CreateOrderPage = () => {
   }
 
   const images = require(`../static/temp/${good.img[parsedTypeId - 1]}`);
-  const price = good.types[parsedTypeId - 1].typePrice * parsedquantityId;
+  const price = good.types[parsedTypeId - 1].typePrice * parsedQuantity;
 
   return (
     <>
@@ -119,9 +148,18 @@ const CreateOrderPage = () => {
             <Col style={{ display: 'flex', alignItems: 'center' }}>
               <EnvironmentOutlined className="co-user-info-icon" />
               <div>
-                <Text className="co-user-info-text">{user.username}</Text>
-                <Text className="co-user-info-phone">{user.phone}</Text>
-                <Text className="co-user-info-address">{user.address}</Text>
+                <Text className="co-user-info-text">
+                  {selectedAddress ? selectedAddress.username : user.username}
+                </Text>
+                <Text className="co-user-info-phone">
+                  {selectedAddress ? selectedAddress.userphone : user.phone}
+                </Text>
+                <Text className="co-user-info-address">
+                  {selectedAddress
+                    ? `${selectedAddress.areaaddress} ${selectedAddress.detailaddress}`
+                    : '未选择地址'}
+                </Text>
+                <AddressSelectorModal addresses={addresses} onAddressSelect={handleAddressSelect} />
               </div>
             </Col>
             <Col style={{ marginLeft: 'auto' }}></Col>
@@ -138,14 +176,14 @@ const CreateOrderPage = () => {
               <br />
               <Text type="secondary">{good.types[parsedTypeId - 1].typeName}</Text>
               <br />
-              <Text className="co-item-details">¥{good.types[parsedTypeId - 1].typePrice} x {parsedquantityId}</Text>
+              <Text className="co-item-details">¥{good.types[parsedTypeId - 1].typePrice} x {parsedQuantity}</Text>
             </div>
           </div>
           <Divider />
           <Form form={form} onFinish={onSubmitClick}>
             <Text>商品类型: {good.types[parsedTypeId - 1].typeName}</Text>
             <br />
-            <Text>商品数量: {parsedquantityId}</Text>
+            <Text>商品数量: {parsedQuantity}</Text>
             <Divider />
             <div className="co-summary">
               <Text>商品合计</Text>
