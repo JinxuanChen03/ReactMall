@@ -51,7 +51,7 @@ const CreateOrderPage = () => {
         }
 
         // 异步获取地址信息
-        const userAddresses = services.user.getLocalAddressesByUserId(user.id);
+        const userAddresses = services.user.getLocalAddressesByUserId(currentUser.id);
         setAddresses(userAddresses);
         if (userAddresses.length > 0)
         {
