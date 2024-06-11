@@ -29,12 +29,17 @@ const OrderDetailPage = () => {
         console.log(fetchedOrder)
         if (fetchedOrder)
         {
-          setOrder(fetchedOrder);
-          const fetchedGood = await services.good.getGoodById(fetchedOrder.goodId);
-          setGood(fetchedGood);
-          const fetchedUser = await services.user.getCurrentUser(fetchedOrder.userId);
-          setUser(fetchedUser);
-
+          console.log(fetchedOrder.orderNo)
+          const fetchedOrderG = await services.order.getGood(fetchedOrder.orderNo.toString());
+          console.log(fetchedOrderG)
+          if (fetchedOrderG)
+          {
+            setOrder(fetchedOrder);
+            const fetchedGood = await services.good.getGoodById(fetchedOrderG[0].goodId);
+            setGood(fetchedGood);
+            const fetchedUser = await services.user.getCurrentUser(fetchedOrder.userId);
+            setUser(fetchedUser);
+          }
           // 获取指定ID的收货地址
           const fetchedAddress = await services.user.getReceivePersonById(fetchedOrder.rId);
           setAddress(fetchedAddress);
