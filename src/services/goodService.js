@@ -334,6 +334,30 @@ class GoodService {
     }
   }
 
+  // 模糊搜索商品名称
+  async getGoodsByName (name) {
+    try {
+      console.log('search:', name);
+      const response = await axios.get(`/api/goods?name=${name}`);
+      console.log("响应数据",response); // 打印请求参数
+      const data = response.data;
+      console.log('获取的商品数据:', data);
+      let correctData =[];
+      for (let key in data) {
+        console.log(`The value of ${key} is ${data[key].name}`);
+        const regex = new RegExp(name, 'i'); // 创建一个新的正则表达式，其中包含用户输入的搜索文本
+        if(regex.test(data[key].name)){
+          console.log('The value of firstClassify is equal to firstClassify');
+          correctData.push(data[key]);
+        }
+      }
+      return correctData;
+    } catch (error) {
+      console.error('Failed to fetch goods:', error);
+      throw error;
+    }
+  }
+
   // 添加新商品
   async addGood (good) {
     try
