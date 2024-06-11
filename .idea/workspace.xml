@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d4f2d48-0154-4a23-8a3a-e6a0d52e46f5" name="更改" comment="feat: 添加了订单跳转和用户名数据的显示">
+    <list default="true" id="2d4f2d48-0154-4a23-8a3a-e6a0d52e46f5" name="更改" comment="fix: CategoryPage的显示恢复正常">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CategoryMenu.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CategoryMenu.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/CategoryPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/CategoryPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/CategoryService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/CategoryService.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -111,7 +109,7 @@
       <workItem from="1717959830420" duration="2589000" />
       <workItem from="1717971631590" duration="26231000" />
       <workItem from="1718022035149" duration="7644000" />
-      <workItem from="1718072685160" duration="4767000" />
+      <workItem from="1718072685160" duration="7177000" />
     </task>
     <task id="LOCAL-00001" summary="feat: home&amp;category&amp;user">
       <option name="closed" value="true" />
@@ -129,7 +127,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718075783165</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="fix: CategoryPage的显示恢复正常">
+      <option name="closed" value="true" />
+      <created>1718077612692</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1718077612692</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -150,7 +156,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="feat: home&amp;category&amp;user" />
     <MESSAGE value="feat: 添加了订单跳转和用户名数据的显示" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: 添加了订单跳转和用户名数据的显示" />
+    <MESSAGE value="fix: CategoryPage的显示恢复正常" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: CategoryPage的显示恢复正常" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
