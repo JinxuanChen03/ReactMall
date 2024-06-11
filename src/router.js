@@ -10,6 +10,8 @@ import CartListPage from "./pages/CartListPage";
 import OrderDetailPage from "./pages/OrderDetailPage";
 import RegisterPage from "./pages/RegisterPage";
 import DeliveryDetailPage from "./pages/DeliveryDetailPage";
+import CategoryPage from "./pages/CategoryPage";
+import UserPage from "./pages/UserPage";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,14 @@ const router = createBrowserRouter([
       {
         path: "home",
         element: <HomePage />
+      },
+      {
+        path: "category",
+        element: <CategoryPage />
+      },
+      {
+        path: "user",
+        element: <UserPage />
       },
       {
         path: "detail/:goodId",
@@ -59,7 +69,7 @@ const router = createBrowserRouter([
       {
         path: "cartList",
         element: <CartListPage />
-      },
+      }
     ]
   }
 ]);

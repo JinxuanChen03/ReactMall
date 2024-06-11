@@ -196,7 +196,24 @@ app.put('/api/deliveries/:orderId', (req, res) => {
   });
 });
 
-// 启动服务器
+app.get('/api/goods', (req, res) => {
+  let { firstClassify } = req.query;
+  firstClassify = String(firstClassify); // 将 firstClassify 转换为字符串
+  console.log('firstClassify_qwq:', firstClassify); // 打印 firstClassify 的值
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    let goods = db.goods;
+    console.log('goods.firstClassify:', goods.firstClassify);
+    if (firstClassify) {
+      goods = goods.filter(g => g.firstClassify === firstClassify);
+    }
+    res.json(goods);
+  });
+});
+
+
+// 启动服务器 node server.js
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

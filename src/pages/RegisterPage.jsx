@@ -98,7 +98,7 @@ const styles = {
     left: 0,
     width: '100%',
     height: '100%',
-    backgroundImage: 'url("/path/to/your/background.jpg")', // 替换为你的背景图片路径
+    // backgroundImage: 'url("/path/to/your/background.png")', // 替换为你的背景图片路径
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center',
     backgroundSize: 'cover',
