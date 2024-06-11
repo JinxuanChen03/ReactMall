@@ -48,7 +48,7 @@ const CategoryPage = () => {
                                 <Card
                                     key={item.id}
                                     hoverable
-                                    cover={<img alt={item.classifyname} src={item.image} />}
+                                    // cover={<img alt={item.classifyname} src={item.image} />}
                                     onClick={() => handleCardClick(item.id)}
                                 >
                                     <Meta title={item.classifyname} />
