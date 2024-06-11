@@ -104,6 +104,17 @@ const CreateOrderPage = () => {
         values.remarks
       );
       console.log(order);
+      //"id":"1'"orderNum":"218913101"goodId":number" :
+      //"thisAmount":"159"
+      const goods = {
+        id: "", // 示例数据，实际中应从用户输入获取
+        orderNum: order.orderNo.toString(),
+        goodId: parsedGoodId.toString(),
+        thisAmount: (good.types[parsedTypeId - 1].typePrice * parsedQuantity).toString(),
+        number: parsedQuantity.toString()
+      };
+      const pp = await services.order.addOrderGood(goods);
+      console.log(pp);
 
       // 2. 提示下单成功并跳转到支付页面
       message.success('下单成功，请支付！');

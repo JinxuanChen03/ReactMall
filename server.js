@@ -293,6 +293,26 @@ app.delete('/api/receivePerson/:id', (req, res) => {
   });
 });
 
+// 添加新的 orderGood
+app.post('/api/orderGoods', (req, res) => {
+  const newOrderGood = req.body;
+
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+
+    // 找到当前最大的 id
+    const maxId = db.orderGood.reduce((max, orderGood) => Math.max(max, parseInt(orderGood.id, 10)), 0);
+    // 为新 orderGood 生成新的 id
+    newOrderGood.id = (maxId + 1).toString();
+
+    db.orderGood.push(newOrderGood);
+    fs.writeFile(dbPath, JSON.stringify(db, null, 2), 'utf-8', (err) => {
+      if (err) return res.status(500).send('Error writing file');
+      res.status(201).json(newOrderGood);
+    });
+  });
+});
 
 
 

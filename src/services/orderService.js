@@ -191,7 +191,19 @@ class OrderService {
       console.error('Error creating delivery info:', error);
     }
   }
-
+  // 添加新商品
+  async addOrderGood (good) {
+    try
+    {
+      const dbGood = good;
+      const response = await axios.post('/api/orderGoods', dbGood);
+      return response.data;
+    } catch (error)
+    {
+      console.error('Error adding good:', error);
+      throw error;
+    }
+  }
 
   async payOrder (orderId, type) {
     try
@@ -292,6 +304,8 @@ class OrderService {
       return [];
     }
   }
+
+
 
   async getOrdersByUserId (userId) {
     try
