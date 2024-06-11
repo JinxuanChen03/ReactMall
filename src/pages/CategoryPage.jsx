@@ -33,7 +33,7 @@ const CategoryPage = () => {
             {/* <CategoryMenu onSelect={handleSelectCategory} style={{ flex: 1 }} /> */}
             <Layout>
                 <Sider>
-                    <Menu mode="inline" onClick={handleMenuClick}>
+                    <Menu mode="inline" onClick={handleMenuClick} style={{ minHeight: '900px' }}>
                         {firstClassify.map(item => (
                             <Menu.Item key={item.id}>
                                 {item.classifyname}

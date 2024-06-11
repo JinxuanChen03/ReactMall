@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Route, Routes, useNavigate} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import useLoginCheck from '../hook/LoginCheck';
 import CategoryPage from './CategoryPage';
 import CartListPage from './CartListPage';
@@ -8,7 +8,7 @@ import BottomNav from '../components/BottomNav';
 import HomeSearch from "../components/HomeSearch";
 import HomeCarousel from "../components/HomeCarousel";
 import HomeMiddleCard from "../components/HomeMiddleCard";
-import {Card} from "antd";
+import { Card } from "antd";
 import service from "../services/goodService";
 
 const gridStyle = {
@@ -45,15 +45,15 @@ const HomePage = () => {
 
     return (
         <div className="scrollable-content">
-            <HomeSearch/>
-            <HomeCarousel/>
+            <HomeSearch />
+            <HomeCarousel />
             <Routes>
                 {/*<Route path="/home" element={<HomePage />} />*/}
-                <Route path="/category" element={<CategoryPage/>}/>
-                <Route path="/cartList" element={<CartListPage/>}/>
-                <Route path="/user" element={<UserPage/>}/>
+                <Route path="/category" element={<CategoryPage />} />
+                <Route path="/cartList" element={<CartListPage />} />
+                <Route path="/user" element={<UserPage />} />
             </Routes>
-            <HomeMiddleCard/>
+            <HomeMiddleCard />
             <div>
                 {loading ? (
                     <p>加载中...</p>
@@ -61,7 +61,7 @@ const HomePage = () => {
                     <Card>
                         {goods.map((item) => (
                             <Card.Grid style={gridStyle} key={item.id} onClick={() => goToDetails(item.id)}>
-                                <img src={require(`../static/temp/${item.img[0]}`)} />
+                                <img src={require(`../static/temp/${item.img[0]}`)} style={{ width: '200px', height: '200px' }} />
                                 <p>{item.brand} {item.name}</p>
                                 <p>￥{item.price}</p>
                             </Card.Grid>
@@ -69,7 +69,7 @@ const HomePage = () => {
                     </Card>
                 )}
             </div>
-            <BottomNav/>
+            <BottomNav />
         </div>
     );
 }
