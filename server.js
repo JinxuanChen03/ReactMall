@@ -314,6 +314,29 @@ app.post('/api/orderGoods', (req, res) => {
   });
 });
 
+// 根据 orderNum 查询 orderGood
+app.get('/api/orderGoods', (req, res) => {
+  const orderNum = req.query.orderNum;
+
+  if (!orderNum)
+  {
+    return res.status(400).send('orderNum is required');
+  }
+
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    console.log(orderNum)
+    // 查找匹配的 orderGood
+    const orderGoods = db.orderGood.filter(orderGood => orderGood.orderNum === orderNum);
+    console.log(orderGoods)
+    if (orderGoods.length === 0)
+    {
+      return res.status(404).send('No orderGoods found with the given orderNum');
+    }
+    res.status(200).json(orderGoods);
+  });
+});
 
 
 

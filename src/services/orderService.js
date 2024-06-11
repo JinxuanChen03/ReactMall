@@ -205,6 +205,30 @@ class OrderService {
     }
   }
 
+  // 根据 orderNum 获取所有关联的 orderGood
+  async getGood (orderNum) {
+    try
+    {
+      // 发起 GET 请求以获取与 orderNum 关联的所有 orderGood
+      const orderGoodsResponse = await axios.get('/api/orderGoods', {
+        params: { orderNum }
+      });
+
+      // 确保从响应中提取 data 属性
+      const orderGoods = orderGoodsResponse.data;
+
+      // 打印 orderGoods 以检查结果
+      console.log(orderGoods);
+
+      // 返回获取的 orderGoods
+      return orderGoods;
+    } catch (error)
+    {
+      console.error('Error fetching order goods:', error);
+      throw error;
+    }
+  }
+
   async payOrder (orderId, type) {
     try
     {
