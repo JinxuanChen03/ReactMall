@@ -4,8 +4,8 @@ import { useNavigate, useParams } from 'react-router';
 import useLoginCheck from '../hook/LoginCheck';
 import { ServiceContext } from '../contexts/ServiceContext';
 import { Card, Typography, Divider, Input, Button, Form, Row, Col, Spin, message } from 'antd';
+import { EnvironmentOutlined, RightOutlined } from '@ant-design/icons';
 import TopNavBar from '../components/TopNavBar'; // 导入封装好的组件
-import { EnvironmentOutlined } from '@ant-design/icons';
 import AddressSelectorModal from '../components/AddressSelectorModal'; // 导入 AddressSelectorModal 组件
 
 const { Title, Text } = Typography;
@@ -27,6 +27,7 @@ const CreateOrderPage = () => {
   const [error, setError] = useState(null);
   const [addresses, setAddresses] = useState([]); // 状态用于存储地址信息
   const [selectedAddress, setSelectedAddress] = useState(null); // 状态用于存储选中的地址
+  const [isModalVisible, setIsModalVisible] = useState(false); // 管理弹窗的显示状态
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,8 +72,8 @@ const CreateOrderPage = () => {
   }, [parsedGoodId, services.good, services.user, navigate]);
 
   const handleAddressSelect = (address) => {
-    console.log(address)
     setSelectedAddress(address);
+    setIsModalVisible(false); // 选择地址后关闭弹窗
   };
 
   const onSubmitClick = async (values) => {
@@ -82,41 +83,38 @@ const CreateOrderPage = () => {
       {
         throw new Error('商品、用户或地址信息不可用');
       }
-      //创建地址信息
+      // 创建地址信息
       const newAddress = {
-        username: selectedAddress.username, // 示例数据，实际中应从用户输入获取
+        username: selectedAddress.username,
         userphone: selectedAddress.userphone,
         areaaddress: selectedAddress.areaaddress,
         detailaddress: selectedAddress.detailaddress,
         usercode: "518000",
-        userId: user.id // 关联到当前用户
+        userId: user.id
       };
-      const ttt = await services.user.addReceivePerson(newAddress)
-      console.log(ttt);
-      // 1. 创建订单
+      const addedAddress = await services.user.addReceivePerson(newAddress);
+
+      // 创建订单
       const order = await services.order.createOrder(
         user.id,
-        ttt.id,
+        addedAddress.id,
         parsedGoodId,
         good.types[parsedTypeId - 1].typePrice * parsedQuantity,
         parsedTypeId,
         parsedQuantity,
         values.remarks
       );
-      console.log(order);
-      //"id":"1'"orderNum":"218913101"goodId":number" :
-      //"thisAmount":"159"
-      const goods = {
-        id: "", // 示例数据，实际中应从用户输入获取
+
+      const orderGoods = {
+        id: "",
         orderNum: order.orderNo.toString(),
         goodId: parsedGoodId.toString(),
         thisAmount: (good.types[parsedTypeId - 1].typePrice * parsedQuantity).toString(),
         number: parsedQuantity.toString()
       };
-      const pp = await services.order.addOrderGood(goods);
-      console.log(pp);
+      await services.order.addOrderGood(orderGoods);
 
-      // 2. 提示下单成功并跳转到支付页面
+      // 提示下单成功并跳转到支付页面
       message.success('下单成功，请支付！');
       navigate(`/pay/${order.id}`);
     } catch (error)
@@ -127,7 +125,7 @@ const CreateOrderPage = () => {
   };
 
   const goBack = () => {
-    navigate(-1); // Navigate back to the previous page
+    navigate(-1);
   };
 
   if (loading)
@@ -142,7 +140,6 @@ const CreateOrderPage = () => {
 
   if (!good || !user)
   {
-    // 如果未找到商品或用户，跳转到主页或显示“未找到”信息
     navigate('/home');
     return null;
   }
@@ -154,34 +151,39 @@ const CreateOrderPage = () => {
     <>
       <TopNavBar onBack={goBack} title="创建订单" />
       <div className="co-container">
-        <div className="co-user-info">
+        <div className="co-user-info" style={{ position: 'relative', padding: '20px', border: '1px solid #f0f0f0', borderRadius: '8px', marginBottom: '20px' }}>
           <Row align="middle" className="co-user-info-row">
             <Col style={{ display: 'flex', alignItems: 'center' }}>
               <EnvironmentOutlined className="co-user-info-icon" />
               <div>
-                <Text className="co-user-info-text">
-                  {selectedAddress ? selectedAddress.username : user.username}
-                </Text>
-                <Text className="co-user-info-phone">
-                  {selectedAddress ? selectedAddress.userphone : user.phone}
-                </Text>
-                <Text className="co-user-info-address">
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Text style={{ fontSize: '16px', fontWeight: 'bold', marginRight: '16px' }}>
+                    {selectedAddress ? selectedAddress.username : user.username}
+                  </Text>
+                  <Text style={{ color: '#888' }}>
+                    {selectedAddress ? selectedAddress.userphone : user.phone}
+                  </Text>
+                </div>
+                <Text className="co-user-info-address" style={{ display: 'block', color: '#888', marginTop: '5px' }}>
                   {selectedAddress
                     ? `${selectedAddress.areaaddress} ${selectedAddress.detailaddress}`
                     : '未选择地址'}
                 </Text>
-                <AddressSelectorModal addresses={addresses} onAddressSelect={handleAddressSelect} />
               </div>
             </Col>
-            <Col style={{ marginLeft: 'auto' }}></Col>
+            <Col style={{ marginLeft: 'auto' }}>
+              <RightOutlined
+                style={{ fontSize: '20px', cursor: 'pointer' }}
+                onClick={() => setIsModalVisible(true)}
+              />
+            </Col>
           </Row>
-          <div className="co-dashed-divider"></div>
         </div>
         <Card className="co-card">
           <Title level={4}>商品详情</Title>
           <Divider />
-          <div className="co-item">
-            <img src={images} className="co-item-img" alt={good.name} />
+          <div className="co-item" style={{ display: 'flex', alignItems: 'center' }}>
+            <img src={images} className="co-item-img" alt={good.name} style={{ width: '100px', marginRight: '20px' }} />
             <div>
               <Text strong>{good.name}</Text>
               <br />
@@ -192,44 +194,45 @@ const CreateOrderPage = () => {
           </div>
           <Divider />
           <Form form={form} onFinish={onSubmitClick}>
-            <Text>商品类型: {good.types[parsedTypeId - 1].typeName}</Text>
-            <br />
-            <Text>商品数量: {parsedQuantity}</Text>
-            <Divider />
-            <div className="co-summary">
+            <div className="co-summary" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
               <Text>商品合计</Text>
               <Text>¥{price}</Text>
             </div>
-            <div className="co-summary">
+            <div className="co-summary" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
               <Text>运费</Text>
               <Text>¥0</Text>
             </div>
-            <div className="co-summary">
+            <div className="co-summary" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
               <Text>活动优惠</Text>
               <Text>-¥0</Text>
             </div>
-            <div className="co-summary">
+            <div className="co-summary" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
               <Text>优惠券</Text>
               <Text>-¥0</Text>
             </div>
-            <div className="co-summary">
+            <div className="co-summary" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
               <Text>积分抵扣</Text>
               <Text>-¥0</Text>
             </div>
             <Divider />
-            <div className="co-summary-total">
+            <div className="co-summary-total" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '16px', fontWeight: 'bold' }}>
               <Text>实际支付</Text>
               <Text>¥{price}</Text>
             </div>
-            <div className="co-form-remarks">
+            <div className="co-form-remarks" style={{ marginTop: '20px' }}>
               <Form.Item label="备注" name="remarks">
                 <Input.TextArea placeholder="请填写备注信息" />
               </Form.Item>
             </div>
-            <Button type="primary" htmlType="submit" block>提交订单</Button>
+            <Button type="primary" htmlType="submit" block style={{ marginTop: '20px' }}>提交订单</Button>
           </Form>
         </Card>
       </div>
+      <AddressSelectorModal
+        visible={isModalVisible}
+        onAddressSelect={handleAddressSelect}
+        onCancel={() => setIsModalVisible(false)}
+      />
     </>
   );
 };
