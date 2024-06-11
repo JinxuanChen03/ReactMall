@@ -1084,10 +1084,25 @@
     },
     {
       "id": "2",
-      "image": "/src/assets/pic/OIP-C (2).jpg",
+      "image": "cate1.jpg",
       "firstClassify": "2",
       "secondClassify": "11",
-      "stockDetails": [],
+      "stockDetails": [
+        {
+          "color": "黑色",
+          "size": "52GB",
+          "price": 1000,
+          "stock": 10,
+          "sku": "1717677889078"
+        },
+        {
+          "color": "黑色",
+          "size": "52GB",
+          "price": 1000,
+          "stock": 10,
+          "sku": "1717677889078"
+        }
+      ],
       "sales": 0,
       "name": "小米 HUAWEI P21",
       "brand": "小米",
@@ -1100,10 +1115,25 @@
     },
     {
       "id": "d508",
-      "image": "/src/assets/pic/R.jpg",
+      "image": "cate1.jpg",
       "firstClassify": "1",
       "secondClassify": "10",
-      "stockDetails": [],
+      "stockDetails": [
+        {
+          "color": "黑色",
+          "size": "52GB",
+          "price": 1000,
+          "stock": 10,
+          "sku": "1717677889078"
+        },
+        {
+          "color": "黑色",
+          "size": "52GB",
+          "price": 1000,
+          "stock": 10,
+          "sku": "1717677889078"
+        }
+      ],
       "sales": 0,
       "name": "炫彩T恤",
       "brand": "优衣库",

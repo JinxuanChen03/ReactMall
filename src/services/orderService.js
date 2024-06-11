@@ -196,10 +196,12 @@ class OrderService {
       // 更新订单状态
       if (type === '微信支付')
       {
-        order.status = 5; // 假设状态码 5 表示微信支付成功
+        order.type = 5; // 假设状态码 5 表示微信支付成功
+        order.status = 1;
       } else
       {
-        order.status = 6; // 假设状态码 6 表示其他支付方式成功
+        order.type = 6; // 假设状态码 6 表示其他支付方式成功
+        order.status = 1;
       }
       order.payTime = new Date().toLocaleString();
 
@@ -333,7 +335,7 @@ class OrderService {
       orderStatus: this._convertStatusToString(frontendOrder.status),
       deliveryWay: "暂无", // 假设默认值
       deliveryNum: "暂无", // 假设默认值
-      payBy: frontendOrder.status >= 1 ? "已支付" : "未支付", // 简单判断支付状态
+      payBy: this._convertStatusToString(frontendOrder.type),
       submitTime: frontendOrder.createTime,
       payTime: frontendOrder.payTime || "",
       deliveryTime: "",
