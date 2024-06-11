@@ -1,8 +1,17 @@
 import React, {useState, useEffect, useContext} from 'react';
 import CategoryMenu from '../components/CategoryMenu';
 import BottomNav from '../components/BottomNav';
-import {Breadcrumb, Layout, Menu, message, theme} from 'antd';
+import {Breadcrumb, Card, Layout, Menu, message, theme} from 'antd';
 import service from '../services/CategoryService';
+import {AccountBookOutlined, CarOutlined, FileDoneOutlined, MoneyCollectOutlined} from "@ant-design/icons";
+
+const gridStyle = {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+};
 
 const CategoryPage = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -34,33 +43,26 @@ const CategoryPage = () => {
     }, [selectedCategory]);
 
     return (
-        <>
-        <div className="scrollable-content">
-            <CategoryMenu onSelect={handleSelectCategory} />
-            <div>
+        <div className="scrollable-content" style={{ display: 'flex', flexDirection: 'row' }}>
+            <CategoryMenu onSelect={handleSelectCategory} style={{ flex: 1 }} />
+            <div style={{ flex: 2 }}>
                 {loading ? (
                     <p>加载中...</p>
                 ) : (
-                    <>
-                        {selectedCategory && <h2>分类为: {selectedCategory} 的商品</h2>}
-                        <ul>
-                            {goods.map((item) => (
-                                <li key={item.id}>
-                                    {/*<img src=require{`../static/temp/${item.image}`} alt={item.name} />*/}
-                                    <p>名称: {item.name}</p>
-                                    <p>品牌: {item.brand}</p>
-                                    <p>价格: {item.price}</p>
-                                    <p>库存: {item.stock}</p>
-                                </li>
-                            ))}
-                        </ul>
-                    </>
+                    <Card>
+                        {goods.map((item) => (
+                            <Card.Grid style={gridStyle} key={item.id}>
+                                <p>名称: {item.name}</p>
+                                <p>品牌: {item.brand}</p>
+                                <p>价格: {item.price}</p>
+                                <p>库存: {item.stock}</p>
+                            </Card.Grid>
+                        ))}
+                    </Card>
                 )}
             </div>
-            {/*<CategoryItem/>*/}
-            <BottomNav />
+            <BottomNav style={{ flex: 0.2 }} />
         </div>
-        </>
     );
 };
 

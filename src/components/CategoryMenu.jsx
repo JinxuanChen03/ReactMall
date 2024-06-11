@@ -11,60 +11,15 @@ const items = [
     },
     {
         key: '2',
-        label: '家居用品',
+        label: '数码电子',
     },
     {
         type: 'divider',
     },
     {
         key: '3',
-        label: '数码电子',
-    },
-    {
-        type: 'divider',
-    },
-    {
-        key: '4',
-        label: '箱包服饰',
-    },
-    {
-        type: 'divider',
-    },
-    {
-        key: '5',
-        label: '家居用品',
-    },
-    {
-        type: 'divider',
-    },
-    {
-        key: '6',
-        label: '数码电子',
-    },
-    {
-        type: 'divider',
-    },
-    {
-        key: '7',
-        label: '箱包服饰',
-    },
-    {
-        type: 'divider',
-    },
-    {
-        key: '8',
-        label: '家居用品',
-    },
-    {
-        type: 'divider',
-    },
-    {
-        key: '9',
-        label: '数码电子',
-    },
-    {
-        type: 'divider',
-    },
+        label: '零食小吃',
+    }
 ];
 const CategoryMenu = ({ onSelect }) => {
     const onClick = (e) => {
