@@ -4,6 +4,7 @@ import BottomNav from '../components/BottomNav';
 import {Breadcrumb, Card, Layout, Menu, message, theme} from 'antd';
 import service from '../services/CategoryService';
 import {AccountBookOutlined, CarOutlined, FileDoneOutlined, MoneyCollectOutlined} from "@ant-design/icons";
+import {useNavigate} from "react-router-dom";
 
 const gridStyle = {
     width: '100%',
@@ -17,11 +18,15 @@ const CategoryPage = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [goods, setGoods] = useState([]);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSelectCategory = (key) => {
         console.log('Selected category:', key);
         setSelectedCategory(key);
     };
+    const goToDetails = (id) => {
+        navigate(`/detail/${id}`);
+    }
 
     //钩子函数
     useEffect(() => {
@@ -51,11 +56,9 @@ const CategoryPage = () => {
                 ) : (
                     <Card>
                         {goods.map((item) => (
-                            <Card.Grid style={gridStyle} key={item.id}>
-                                <p>名称: {item.name}</p>
-                                <p>品牌: {item.brand}</p>
-                                <p>价格: {item.price}</p>
-                                <p>库存: {item.stock}</p>
+                            <Card.Grid style={gridStyle} key={item.id} onClick={() => goToDetails(item.id)}>
+                                <p>{item.brand} {item.name}</p>
+                                <p>￥{item.price}</p>
                             </Card.Grid>
                         ))}
                     </Card>
