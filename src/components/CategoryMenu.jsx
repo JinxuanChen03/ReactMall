@@ -1,7 +1,6 @@
 import React from 'react';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
-import CategoryItem from "./CategoryItem";
 const items = [
     {
         key: '1',
@@ -76,11 +75,11 @@ const CategoryMenu = ({ onSelect }) => {
         <Menu
             onClick={onClick}
             style={{
-                width: 140,
+                width: '30%',
                 height: '100%',
             }}
             defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
+            defaultOpenKeys={['1']}
             mode="inline"
             items={items}
             className="menu-centered" // 使用新的CSS类

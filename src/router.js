@@ -69,10 +69,6 @@ const router = createBrowserRouter([
       {
         path: "cartList",
         element: <CartListPage />
-      },
-      {
-        path: "cartList",
-        element: <CartListPage />
       }
     ]
   }

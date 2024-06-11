@@ -5,8 +5,6 @@ const CategoryService = {
     good: {
         getGoodsByClassify: async (firstClassify) => {
             try {
-                // 在这里替换为你的实际 API 调用
-                // const response = await fetch(`/api/goods?firstClassify=${firstClassify}`);
                 const response = await axios.get(`/api/goods?firstClassify=${firstClassify}`);
                 console.log("响应数据",response); // 打印请求参数
                 const data = response.data;

@@ -1,8 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import CategoryMenu from '../components/CategoryMenu';
-import CategoryItem from '../components/CategoryItem';
 import BottomNav from '../components/BottomNav';
-import { message } from 'antd';
+import {Breadcrumb, Layout, Menu, message, theme} from 'antd';
 import service from '../services/CategoryService';
 
 const CategoryPage = () => {
@@ -15,10 +14,10 @@ const CategoryPage = () => {
         setSelectedCategory(key);
     };
 
+    //钩子函数
     useEffect(() => {
         const fetchGoodsByClassify = async () => {
             if (!selectedCategory) return;
-
             setLoading(true);
             try {
                 const goodsData = await service.good.getGoodsByClassify(selectedCategory); // 获取某一类别的商品
@@ -31,14 +30,13 @@ const CategoryPage = () => {
                 setLoading(false);
             }
         };
-
         fetchGoodsByClassify();
     }, [selectedCategory]);
-    // const images = require(`../static/temp/${good.img[]}`);
+
     return (
         <>
-        <CategoryMenu />
         <div className="scrollable-content">
+            <CategoryMenu onSelect={handleSelectCategory} />
             <div>
                 {loading ? (
                     <p>加载中...</p>
@@ -59,10 +57,10 @@ const CategoryPage = () => {
                     </>
                 )}
             </div>
-            <CategoryItem/>
+            {/*<CategoryItem/>*/}
             <BottomNav />
         </div>
-            </>
+        </>
     );
 };
 
