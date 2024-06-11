@@ -374,10 +374,10 @@ class OrderService {
     switch (status)
     {
       case '待付款': return 0;
-      case '已支付': return 1;
-      case '发货': return 2;
-      case '确认收货': return 3;
-      case '退款': return 4;
+      case '待发货': return 1;
+      case '已发货': return 2;
+      case '已完成': return 3;
+      case '已关闭': return 4;
       case '微信支付': return 1;
       case '支付宝': return 1;
       default: return 0; // 默认状态为 0（待付款）
@@ -389,10 +389,10 @@ class OrderService {
     switch (status)
     {
       case 0: return '待付款';
-      case 1: return '已支付';
-      case 2: return '发货';
-      case 3: return '确认收货';
-      case 4: return '退款';
+      case 1: return '待发货';
+      case 2: return '已发货';
+      case 3: return '已完成';
+      case 4: return '已关闭';
       case 5: return '微信支付';
       case 6: return '支付宝';
       default: return '待付款'; // 默认状态为 '待付款'

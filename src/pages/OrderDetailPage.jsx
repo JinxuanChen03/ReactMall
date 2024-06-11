@@ -26,6 +26,7 @@ const OrderDetailPage = () => {
       try
       {
         const fetchedOrder = await services.order.getOrderById2(parsedOrderId);
+        console.log(fetchedOrder)
         if (fetchedOrder)
         {
           setOrder(fetchedOrder);
@@ -61,15 +62,15 @@ const OrderDetailPage = () => {
     switch (status)
     {
       case 0:
-        return '未支付';
+        return '待支付';
       case 1:
-        return '已支付';
+        return '待发货';
       case 2:
-        return '发货';
+        return '已发货';
       case 3:
-        return '确认收货';
+        return '已完成';
       default:
-        return '未知状态';
+        return '已关闭';
     }
   };
 
