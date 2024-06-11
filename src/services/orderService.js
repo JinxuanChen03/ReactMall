@@ -342,7 +342,19 @@ class OrderService {
       return [];
     }
   }
-
+  async deleteOrder(orderId) {
+    try {
+      // 发送 DELETE 请求到服务器以删除订单
+      await axios.delete(`${this.baseUrl}/${orderId}`);
+      // 从本地订单列表中删除
+      this.list = this.list.filter(order => order.id !== orderId);
+      return true;
+    } catch (error) {
+      console.error(`Error deleting order with ID ${orderId}:`, error);
+      return false;
+    }
+  }
+  
   async _loadData () {
     try
     {
