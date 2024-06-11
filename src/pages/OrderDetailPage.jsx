@@ -94,15 +94,15 @@ const OrderDetailPage = () => {
     switch (status)
     {
       case 0:
-        return <CloseCircleOutlined style={{ color: '#ff4d4f', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <CloseCircleOutlined style={{ color: '#FFFFFF', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       case 1:
-        return <CheckCircleOutlined style={{ color: '#40a9ff', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <CheckCircleOutlined style={{ color: '#FFFFFF', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       case 2:
-        return <CarOutlined style={{ color: '#faad14', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <CarOutlined style={{ color: '#FFFFFF', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       case 3:
-        return <SmileOutlined style={{ color: '#52c41a', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <SmileOutlined style={{ color: '#FFFFFF', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       default:
-        return null;
+        return <SmileOutlined style={{ color: '#FFFFFF', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
     }
   };
 
