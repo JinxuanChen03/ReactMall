@@ -32,6 +32,21 @@ app.get('/api/goods/:id', (req, res) => {
   });
 });
 
+//模糊搜索商品名
+app.get('/api/goods', (req, res) => {
+  let { name } = req.query;
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    let goods = db.goods;
+    if (name) {
+      const regex = new RegExp(name, 'i'); // 创建一个新的正则表达式，其中包含用户输入的搜索文本
+      goods = goods.filter(g => regex.test(g.name)); // 使用正则表达式来过滤商品
+    }
+    res.json(goods);
+  });
+});
+
 // 添加新商品
 app.post('/api/goods', (req, res) => {
   const newGood = req.body;
@@ -196,6 +211,7 @@ app.put('/api/deliveries/:orderId', (req, res) => {
   });
 });
 
+//根据类别获取商品
 app.get('/api/goods', (req, res) => {
   let { firstClassify } = req.query;
   firstClassify = String(firstClassify); // 将 firstClassify 转换为字符串

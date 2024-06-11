@@ -15,6 +15,7 @@ import UserPage from "./pages/UserPage";
 import OrderUnpaidPage from "./pages/OrderUnpaidPage";
 import OrderReceivePage from "./pages/OrderReceivePage";
 import OrderDonePage from "./pages/OrderDonePage";
+import SearchPage from "./pages/SearchPage"
 
 import AddressManagementPage from "./pages/AddressManagementPage"
 const router = createBrowserRouter([
@@ -89,6 +90,10 @@ const router = createBrowserRouter([
       {
         path: "address",
         element: <AddressManagementPage />
+      },
+      {
+        path: "search",
+        element: <SearchPage />
       }
     ]
   }
