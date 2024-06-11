@@ -16,6 +16,7 @@ const OrderDetailPage = () => {
   const [order, setOrder] = useState(null);
   const [good, setGood] = useState(null);
   const [user, setUser] = useState(null);
+  const [address, setAddress] = useState(null); // 增加一个状态来保存地址信息
   const [loading, setLoading] = useState(true); // 增加一个加载状态
 
   useEffect(() => {
@@ -25,6 +26,7 @@ const OrderDetailPage = () => {
       try
       {
         const fetchedOrder = await services.order.getOrderById2(parsedOrderId);
+        console.log(fetchedOrder)
         if (fetchedOrder)
         {
           setOrder(fetchedOrder);
@@ -32,6 +34,11 @@ const OrderDetailPage = () => {
           setGood(fetchedGood);
           const fetchedUser = await services.user.getCurrentUser(fetchedOrder.userId);
           setUser(fetchedUser);
+
+          // 获取指定ID的收货地址
+          const fetchedAddress = await services.user.getReceivePersonById(fetchedOrder.rId);
+          setAddress(fetchedAddress);
+
         } else
         {
           alert('订单不存在');
@@ -55,15 +62,15 @@ const OrderDetailPage = () => {
     switch (status)
     {
       case 0:
-        return '未支付';
+        return '待支付';
       case 1:
-        return '已支付';
+        return '待发货';
       case 2:
-        return '发货';
+        return '已发货';
       case 3:
-        return '确认收货';
+        return '已完成';
       default:
-        return '未知状态';
+        return '已关闭';
     }
   };
 
@@ -87,15 +94,15 @@ const OrderDetailPage = () => {
     switch (status)
     {
       case 0:
-        return <CloseCircleOutlined style={{ color: '#faad14', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <CloseCircleOutlined style={{ color: '#FFFFFF', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       case 1:
-        return <CheckCircleOutlined style={{ color: '#faad14', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <CheckCircleOutlined style={{ color: '#FFFFFF', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       case 2:
-        return <CarOutlined style={{ color: '#faad14', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <CarOutlined style={{ color: '#FFFFFF', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       case 3:
-        return <SmileOutlined style={{ color: '#faad14', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <SmileOutlined style={{ color: '#FFFFFF', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       default:
-        return null;
+        return <SmileOutlined style={{ color: '#FFFFFF', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
     }
   };
 
@@ -116,7 +123,7 @@ const OrderDetailPage = () => {
     );
   }
 
-  if (!order || !good || !user)
+  if (!order || !good || !user || !address)
   {
     return <div>加载中...</div>; // 显示一个加载状态或占位符
   }
@@ -136,9 +143,9 @@ const OrderDetailPage = () => {
             <Col style={{ display: 'flex', alignItems: 'center' }}>
               <EnvironmentOutlined className="od-icon" />
               <div>
-                <Text className="od-user-name">{user.username}</Text>
-                <Text className="od-user-phone">{user.phone}</Text>
-                <Text className="od-user-address">{user.address}</Text>
+                <Text className="od-user-name">{address.username}</Text>
+                <Text className="od-user-phone">{address.userphone}</Text>
+                <Text className="od-user-address">{address.areaaddress} {address.detailaddress}</Text>
               </div>
             </Col>
           </Row>
@@ -154,7 +161,7 @@ const OrderDetailPage = () => {
               <br />
               <Text type="secondary">{good.types[order.type - 1].typeName}</Text>
               <br />
-              <Text className="od-item-details">¥{good.types[order.type - 1].typePrice}*{order.quantity}</Text>
+              <Text className="od-item-details">¥{good.types[order.type - 1].typePrice} * {order.quantity}</Text>
             </div>
           </div>
           <Divider />

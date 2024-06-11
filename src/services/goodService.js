@@ -348,6 +348,7 @@ class GoodService {
     }
   }
 
+
   // 更新商品
   async updateGood (id, good) {
     try

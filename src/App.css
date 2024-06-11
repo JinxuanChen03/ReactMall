@@ -494,3 +494,8 @@ body {
     font-size: 16px;
   }
 }
+
+.address-management-container {
+  padding: 20px;
+  background-color: #f5f5f5;
+}

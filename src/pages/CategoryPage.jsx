@@ -15,6 +15,12 @@ const CategoryPage = () => {
     const [secondClassify, setSecondClassify] = useState([]);
     const navigate = useNavigate();
 
+    const handleSelectCategory = (key) => {
+        console.log('Selected category:', key);
+        setSelectedCategory(key);
+    };
+
+    //钩子函数
     useEffect(() => {
         fetchFirstClassify().then(response => setFirstClassify(response.data));
     }, []);

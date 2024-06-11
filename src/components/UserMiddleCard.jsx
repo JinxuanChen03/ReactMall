@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'antd';
-import {AccountBookOutlined, CarOutlined, FileDoneOutlined, MoneyCollectOutlined} from "@ant-design/icons";
-import {useNavigate} from "react-router-dom";
+import { AccountBookOutlined, CarOutlined, FileDoneOutlined, MoneyCollectOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 const gridStyle = {
     width: '25%',
@@ -21,20 +21,20 @@ const App = () => {
     return (
         <Card>
             <Card.Grid style={gridStyle} onClick={() => handleClick('/orderList')}>
-                <FileDoneOutlined style={{fontSize: '24px'}}/>
+                <FileDoneOutlined style={{ fontSize: '24px' }} />
                 全部订单
             </Card.Grid>
-            <Card.Grid style={gridStyle}>
-                <MoneyCollectOutlined style={{fontSize: '24px'}}/>
+            <Card.Grid style={gridStyle} onClick={() => handleClick('/orderUnpaid')}>
+                <MoneyCollectOutlined style={{ fontSize: '24px' }} />
                 待付款
             </Card.Grid>
-            <Card.Grid style={gridStyle} >
-                <CarOutlined style={{fontSize: '24px'}}/>
+            <Card.Grid style={gridStyle} onClick={() => handleClick('/orderReceive')}>
+                <CarOutlined style={{ fontSize: '24px' }} />
                 待收货
             </Card.Grid>
-            <Card.Grid style={gridStyle}>
-                <AccountBookOutlined style={{fontSize: '24px'}}/>
-                退款/售后
+            <Card.Grid style={gridStyle} onClick={() => handleClick('/orderDone')}>
+                <AccountBookOutlined style={{ fontSize: '24px' }} />
+                已完成
             </Card.Grid>
         </Card>
     );
