@@ -1,32 +1,75 @@
-import React, { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Route, Routes, useNavigate} from 'react-router-dom';
 import useLoginCheck from '../hook/LoginCheck';
-
 import CategoryPage from './CategoryPage';
 import CartListPage from './CartListPage';
 import UserPage from './UserPage';
 import BottomNav from '../components/BottomNav';
 import HomeSearch from "../components/HomeSearch";
 import HomeCarousel from "../components/HomeCarousel";
-import HomeItemCard from "../components/HomeItemCard";
 import HomeMiddleCard from "../components/HomeMiddleCard";
+import {Card} from "antd";
+import service from "../services/goodService";
+
+const gridStyle = {
+    width: '50%',
+    height: 300,
+    textAlign: 'center',
+};
 
 const HomePage = () => {
     useLoginCheck(); // 钩子调用
 
+    const navigate = useNavigate();
+    const [goods, setGoods] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const goToDetails = (id) => {
+        navigate(`/detail/${id}`);
+    }
+
+    useEffect(() => {
+        const fetchGoodsList = async () => {
+            setLoading(true);
+            try {
+                const goodsData = await service.getGoodList();
+                console.log('获取的商品数据:', goodsData);
+                setGoods(goodsData);
+            } catch (error) {
+                console.error('获取商品数据时出错:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchGoodsList();
+    }, []);
+
     return (
-        <div  className="scrollable-content">
-            <HomeSearch />
-            <HomeCarousel />
+        <div className="scrollable-content">
+            <HomeSearch/>
+            <HomeCarousel/>
             <Routes>
                 {/*<Route path="/home" element={<HomePage />} />*/}
-                <Route path="/category" element={<CategoryPage />} />
-                <Route path="/cartList" element={<CartListPage />} />
-                <Route path="/user" element={<UserPage />} />
+                <Route path="/category" element={<CategoryPage/>}/>
+                <Route path="/cartList" element={<CartListPage/>}/>
+                <Route path="/user" element={<UserPage/>}/>
             </Routes>
-            <HomeMiddleCard />
-            <HomeItemCard />
-            <BottomNav />
+            <HomeMiddleCard/>
+            <div>
+                {loading ? (
+                    <p>加载中...</p>
+                ) : (
+                    <Card>
+                        {goods.map((item) => (
+                            <Card.Grid style={gridStyle} key={item.id} onClick={() => goToDetails(item.id)}>
+                                <img src={require(`../static/temp/${item.img[0]}`)} />
+                                <p>{item.brand} {item.name}</p>
+                                <p>￥{item.price}</p>
+                            </Card.Grid>
+                        ))}
+                    </Card>
+                )}
+            </div>
+            <BottomNav/>
         </div>
     );
 }

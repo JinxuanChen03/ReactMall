@@ -1,0 +1,267 @@
+Index: src/pages/HomePage.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useState } from 'react';\r\nimport { Route, Routes } from 'react-router-dom';\r\nimport useLoginCheck from '../hook/LoginCheck';\r\n\r\nimport CategoryPage from './CategoryPage';\r\nimport CartListPage from './CartListPage';\r\nimport UserPage from './UserPage';\r\nimport BottomNav from '../components/BottomNav';\r\nimport HomeSearch from \"../components/HomeSearch\";\r\nimport HomeCarousel from \"../components/HomeCarousel\";\r\nimport HomeItemCard from \"../components/HomeItemCard\";\r\nimport HomeMiddleCard from \"../components/HomeMiddleCard\";\r\n\r\nconst HomePage = () => {\r\n    useLoginCheck(); // 钩子调用\r\n\r\n    return (\r\n        <div  className=\"scrollable-content\">\r\n            <HomeSearch />\r\n            <HomeCarousel />\r\n            <Routes>\r\n                {/*<Route path=\"/home\" element={<HomePage />} />*/}\r\n                <Route path=\"/category\" element={<CategoryPage />} />\r\n                <Route path=\"/cartList\" element={<CartListPage />} />\r\n                <Route path=\"/user\" element={<UserPage />} />\r\n            </Routes>\r\n            <HomeMiddleCard />\r\n            <HomeItemCard />\r\n            <BottomNav />\r\n        </div>\r\n    );\r\n}\r\n// return <>\r\n//     <h1>Home Page</h1>\r\n//     <Link to=\"/detail/1\">商品1</Link>\r\n//     <Link to=\"/detail/2\">商品2</Link>\r\n//     <Link to=\"/detail/3\">商品3</Link>\r\n//     <Link to=\"/detail/4\">商品3</Link>\r\n//     <Link to=\"/detail/5\">商品3</Link>\r\n//     <Link to=\"/detail/6\">商品3</Link>\r\n//     <Link to=\"/detail/7\">商品3</Link>\r\n//     <Link to=\"/detail/8\">商品3</Link>\r\n//     <Link to=\"/detail/9\">商品3</Link>\r\n//     <Link to=\"/detail/10\">商品3</Link>\r\n//     <Link to=\"/detail/11\">商品3</Link>\r\n//     <Link to=\"/detail/12\">商品3</Link>\r\n//     <Link to=\"/detail/13\">商品3</Link>\r\n//     <Link to=\"/detail/14\">商品3</Link>\r\n//     <Link to=\"/detail/15\">商品3</Link>\r\n//     <Link to=\"/orderList\">订单</Link>\r\n//     <Link to=\"/cartList\">购物车</Link>\r\n//     <p></p>\r\n// </>\r\n\r\nexport default HomePage;
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/HomePage.jsx b/src/pages/HomePage.jsx
+--- a/src/pages/HomePage.jsx	(revision ccf01b2ff10e80d635ecaeb4021bbddfce6c525a)
++++ b/src/pages/HomePage.jsx	(date 1718096466523)
+@@ -1,32 +1,75 @@
+-import React, { useState } from 'react';
+-import { Route, Routes } from 'react-router-dom';
++import React, {useEffect, useState} from 'react';
++import {Route, Routes, useNavigate} from 'react-router-dom';
+ import useLoginCheck from '../hook/LoginCheck';
+-
+ import CategoryPage from './CategoryPage';
+ import CartListPage from './CartListPage';
+ import UserPage from './UserPage';
+ import BottomNav from '../components/BottomNav';
+ import HomeSearch from "../components/HomeSearch";
+ import HomeCarousel from "../components/HomeCarousel";
+-import HomeItemCard from "../components/HomeItemCard";
+ import HomeMiddleCard from "../components/HomeMiddleCard";
++import {Card} from "antd";
++import service from "../services/goodService";
++
++const gridStyle = {
++    width: '50%',
++    height: 300,
++    textAlign: 'center',
++};
+ 
+ const HomePage = () => {
+     useLoginCheck(); // 钩子调用
+ 
++    const navigate = useNavigate();
++    const [goods, setGoods] = useState([]);
++    const [loading, setLoading] = useState(false);
++    const goToDetails = (id) => {
++        navigate(`/detail/${id}`);
++    }
++
++    useEffect(() => {
++        const fetchGoodsList = async () => {
++            setLoading(true);
++            try {
++                const goodsData = await service.getGoodList();
++                console.log('获取的商品数据:', goodsData);
++                setGoods(goodsData);
++            } catch (error) {
++                console.error('获取商品数据时出错:', error);
++            } finally {
++                setLoading(false);
++            }
++        };
++        fetchGoodsList();
++    }, []);
++
+     return (
+-        <div  className="scrollable-content">
+-            <HomeSearch />
+-            <HomeCarousel />
++        <div className="scrollable-content">
++            <HomeSearch/>
++            <HomeCarousel/>
+             <Routes>
+                 {/*<Route path="/home" element={<HomePage />} />*/}
+-                <Route path="/category" element={<CategoryPage />} />
+-                <Route path="/cartList" element={<CartListPage />} />
+-                <Route path="/user" element={<UserPage />} />
++                <Route path="/category" element={<CategoryPage/>}/>
++                <Route path="/cartList" element={<CartListPage/>}/>
++                <Route path="/user" element={<UserPage/>}/>
+             </Routes>
+-            <HomeMiddleCard />
+-            <HomeItemCard />
+-            <BottomNav />
++            <HomeMiddleCard/>
++            <div>
++                {loading ? (
++                    <p>加载中...</p>
++                ) : (
++                    <Card>
++                        {goods.map((item) => (
++                            <Card.Grid style={gridStyle} key={item.id} onClick={() => goToDetails(item.id)}>
++                                <img src={require(`../static/temp/${item.img[0]}`)} />
++                                <p>{item.brand} {item.name}</p>
++                                <p>￥{item.price}</p>
++                            </Card.Grid>
++                        ))}
++                    </Card>
++                )}
++            </div>
++            <BottomNav/>
+         </div>
+     );
+ }
+Index: src/pages/CategoryPage.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, {useState, useEffect, useContext} from 'react';\r\nimport CategoryMenu from '../components/CategoryMenu';\r\nimport BottomNav from '../components/BottomNav';\r\nimport {Breadcrumb, Card, Layout, Menu, message, theme} from 'antd';\r\nimport service from '../services/CategoryService';\r\nimport {AccountBookOutlined, CarOutlined, FileDoneOutlined, MoneyCollectOutlined} from \"@ant-design/icons\";\r\n\r\nconst gridStyle = {\r\n    width: '100%',\r\n    display: 'flex',\r\n    flexDirection: 'column',\r\n    justifyContent: 'center',\r\n    alignItems: 'center',\r\n};\r\n\r\nconst CategoryPage = () => {\r\n    const [selectedCategory, setSelectedCategory] = useState(null);\r\n    const [goods, setGoods] = useState([]);\r\n    const [loading, setLoading] = useState(false);\r\n\r\n    const handleSelectCategory = (key) => {\r\n        console.log('Selected category:', key);\r\n        setSelectedCategory(key);\r\n    };\r\n\r\n    //钩子函数\r\n    useEffect(() => {\r\n        const fetchGoodsByClassify = async () => {\r\n            if (!selectedCategory) return;\r\n            setLoading(true);\r\n            try {\r\n                const goodsData = await service.good.getGoodsByClassify(selectedCategory); // 获取某一类别的商品\r\n                console.log('获取的商品数据:', goodsData);\r\n                setGoods(goodsData);\r\n            } catch (error) {\r\n                console.error('获取商品数据时出错:', error);\r\n                message.error('加载商品数据时出错');\r\n            } finally {\r\n                setLoading(false);\r\n            }\r\n        };\r\n        fetchGoodsByClassify();\r\n    }, [selectedCategory]);\r\n\r\n    return (\r\n        <div className=\"scrollable-content\" style={{ display: 'flex', flexDirection: 'row' }}>\r\n            <CategoryMenu onSelect={handleSelectCategory} style={{ flex: 1 }} />\r\n            <div style={{ flex: 2 }}>\r\n                {loading ? (\r\n                    <p>加载中...</p>\r\n                ) : (\r\n                    <Card>\r\n                        {goods.map((item) => (\r\n                            <Card.Grid style={gridStyle} key={item.id}>\r\n                                <p>名称: {item.name}</p>\r\n                                <p>品牌: {item.brand}</p>\r\n                                <p>价格: {item.price}</p>\r\n                                <p>库存: {item.stock}</p>\r\n                            </Card.Grid>\r\n                        ))}\r\n                    </Card>\r\n                )}\r\n            </div>\r\n            <BottomNav style={{ flex: 0.2 }} />\r\n        </div>\r\n    );\r\n};\r\n\r\nexport default CategoryPage;
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/CategoryPage.jsx b/src/pages/CategoryPage.jsx
+--- a/src/pages/CategoryPage.jsx	(revision ccf01b2ff10e80d635ecaeb4021bbddfce6c525a)
++++ b/src/pages/CategoryPage.jsx	(date 1718096587226)
+@@ -4,6 +4,7 @@
+ import {Breadcrumb, Card, Layout, Menu, message, theme} from 'antd';
+ import service from '../services/CategoryService';
+ import {AccountBookOutlined, CarOutlined, FileDoneOutlined, MoneyCollectOutlined} from "@ant-design/icons";
++import {useNavigate} from "react-router-dom";
+ 
+ const gridStyle = {
+     width: '100%',
+@@ -17,11 +18,15 @@
+     const [selectedCategory, setSelectedCategory] = useState(null);
+     const [goods, setGoods] = useState([]);
+     const [loading, setLoading] = useState(false);
++    const navigate = useNavigate();
+ 
+     const handleSelectCategory = (key) => {
+         console.log('Selected category:', key);
+         setSelectedCategory(key);
+     };
++    const goToDetails = (id) => {
++        navigate(`/detail/${id}`);
++    }
+ 
+     //钩子函数
+     useEffect(() => {
+@@ -51,11 +56,9 @@
+                 ) : (
+                     <Card>
+                         {goods.map((item) => (
+-                            <Card.Grid style={gridStyle} key={item.id}>
+-                                <p>名称: {item.name}</p>
+-                                <p>品牌: {item.brand}</p>
+-                                <p>价格: {item.price}</p>
+-                                <p>库存: {item.stock}</p>
++                            <Card.Grid style={gridStyle} key={item.id} onClick={() => goToDetails(item.id)}>
++                                <p>{item.brand} {item.name}</p>
++                                <p>￥{item.price}</p>
+                             </Card.Grid>
+                         ))}
+                     </Card>
+Index: src/components/HomeItemCard.jsx
+===================================================================
+diff --git a/src/components/HomeItemCard.jsx b/src/components/HomeItemCard.jsx
+deleted file mode 100644
+--- a/src/components/HomeItemCard.jsx	(revision ccf01b2ff10e80d635ecaeb4021bbddfce6c525a)
++++ /dev/null	(revision ccf01b2ff10e80d635ecaeb4021bbddfce6c525a)
+@@ -1,31 +0,0 @@
+-import React from 'react';
+-import { Card } from 'antd';
+-import image from "../images/sample.jpg";
+-import {useNavigate} from "react-router-dom";
+-
+-const gridStyle = {
+-    width: '50%',
+-    height: 300,
+-    textAlign: 'center',
+-};
+-
+-const App = () => {
+-    const navigate = useNavigate();
+-
+-    function handleClick(url) {
+-        navigate(url);
+-    }
+-
+-    return (
+-        <Card >
+-            <Card.Grid style={gridStyle} onClick={() => handleClick('/detail/1')}>
+-                <img src={image} alt="img1" style={{width: '100%', height: '100%'}}/>
+-            </Card.Grid>
+-            <Card.Grid style={gridStyle} onClick={() => handleClick('/detail/2')}>
+-                <img src={image} alt="img1" style={{width: '100%', height: '100%'}}/>
+-            </Card.Grid>
+-        </Card>
+-    );
+-}
+-
+-export default App;
+\ No newline at end of file
+Index: server.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>const express = require('express');\r\nconst fs = require('fs');\r\nconst path = require('path');\r\nconst bodyParser = require('body-parser');\r\n\r\nconst app = express();\r\nconst PORT = process.env.PORT || 5000;\r\n\r\nconst dbPath = path.resolve(__dirname, 'db.json');\r\n\r\n// 中间件来解析 JSON 请求\r\napp.use(bodyParser.json());\r\n\r\n// 获取所有商品\r\napp.get('/api/goods', (req, res) => {\r\n  fs.readFile(dbPath, 'utf-8', (err, data) => {\r\n    if (err) return res.status(500).send('Error reading file');\r\n    const db = JSON.parse(data);\r\n    res.json(db.goods);\r\n  });\r\n});\r\n\r\n// 根据ID获取单个商品\r\napp.get('/api/goods/:id', (req, res) => {\r\n  const { id } = req.params;\r\n  fs.readFile(dbPath, 'utf-8', (err, data) => {\r\n    if (err) return res.status(500).send('Error reading file');\r\n    const db = JSON.parse(data);\r\n    const good = db.goods.find(g => g.id === id);\r\n    if (!good) return res.status(404).send('Good not found');\r\n    res.json(good);\r\n  });\r\n});\r\n\r\n// 添加新商品\r\napp.post('/api/goods', (req, res) => {\r\n  const newGood = req.body;\r\n  fs.readFile(dbPath, 'utf-8', (err, data) => {\r\n    if (err) return res.status(500).send('Error reading file');\r\n    const db = JSON.parse(data);\r\n    db.goods.push(newGood);\r\n    fs.writeFile(dbPath, JSON.stringify(db, null, 2), 'utf-8', (err) => {\r\n      if (err) return res.status(500).send('Error writing file');\r\n      res.status(201).json(newGood);\r\n    });\r\n  });\r\n});\r\n\r\n// 更新商品\r\napp.put('/api/goods/:id', (req, res) => {\r\n  const { id } = req.params;\r\n  const updatedGood = req.body;\r\n  fs.readFile(dbPath, 'utf-8', (err, data) => {\r\n    if (err) return res.status(500).send('Error reading file');\r\n    const db = JSON.parse(data);\r\n    const index = db.goods.findIndex(g => g.id === id);\r\n    if (index === -1) return res.status(404).send('Good not found');\r\n    db.goods[index] = updatedGood;\r\n    fs.writeFile(dbPath, JSON.stringify(db, null, 2), 'utf-8', (err) => {\r\n      if (err) return res.status(500).send('Error writing file');\r\n      res.json(updatedGood);\r\n    });\r\n  });\r\n});\r\n\r\n// 删除商品\r\napp.delete('/api/goods/:id', (req, res) => {\r\n  const { id } = req.params;\r\n  fs.readFile(dbPath, 'utf-8', (err, data) => {\r\n    if (err) return res.status(500).send('Error reading file');\r\n    const db = JSON.parse(data);\r\n    db.goods = db.goods.filter(g => g.id !== id);\r\n    fs.writeFile(dbPath, JSON.stringify(db, null, 2), 'utf-8', (err) => {\r\n      if (err) return res.status(500).send('Error writing file');\r\n      res.status(204).send();\r\n    });\r\n  });\r\n});\r\n\r\n// 获取所有订单\r\napp.get('/api/orders', (req, res) => {\r\n  fs.readFile(dbPath, 'utf-8', (err, data) => {\r\n    if (err) return res.status(500).send('Error reading file');\r\n    const db = JSON.parse(data);\r\n    res.json(db.orderInfo);\r\n  });\r\n});\r\n\r\n// 根据ID获取单个订单\r\napp.get('/api/orders/:id', (req, res) => {\r\n  const { id } = req.params;\r\n  fs.readFile(dbPath, 'utf-8', (err, data) => {\r\n    if (err) return res.status(500).send('Error reading file');\r\n    const db = JSON.parse(data);\r\n    const order = db.orderInfo.find(o => o.id === id);\r\n    if (!order) return res.status(404).send('Order not found');\r\n    res.json(order);\r\n  });\r\n});\r\n\r\n// 添加新订单\r\napp.post('/api/orders', (req, res) => {\r\n  const newOrder = req.body;\r\n\r\n  fs.readFile(dbPath, 'utf-8', (err, data) => {\r\n    if (err) return res.status(500).send('Error reading file');\r\n    const db = JSON.parse(data);\r\n\r\n    // 找到当前最大的 id\r\n    const maxId = db.orderInfo.reduce((max, order) => Math.max(max, parseInt(order.id, 10)), 0);\r\n    // 为新订单生成新的 id\r\n    newOrder.id = (maxId + 1).toString();\r\n\r\n    db.orderInfo.push(newOrder);\r\n    fs.writeFile(dbPath, JSON.stringify(db, null, 2), 'utf-8', (err) => {\r\n      if (err) return res.status(500).send('Error writing file');\r\n      res.status(201).json(newOrder);\r\n    });\r\n  });\r\n});\r\n\r\n// 更新订单\r\napp.put('/api/orders/:id', (req, res) => {\r\n  const { id } = req.params;\r\n  const updatedOrder = req.body;\r\n  fs.readFile(dbPath, 'utf-8', (err, data) => {\r\n    if (err) return res.status(500).send('Error reading file');\r\n    const db = JSON.parse(data);\r\n    const index = db.orderInfo.findIndex(o => o.id === id);\r\n    if (index === -1) return res.status(404).send('Order not found');\r\n    db.orderInfo[index] = updatedOrder;\r\n    fs.writeFile(dbPath, JSON.stringify(db, null, 2), 'utf-8', (err) => {\r\n      if (err) return res.status(500).send('Error writing file');\r\n      res.json(updatedOrder);\r\n    });\r\n  });\r\n});\r\n\r\n// 删除订单\r\napp.delete('/api/orders/:id', (req, res) => {\r\n  const { id } = req.params;\r\n  fs.readFile(dbPath, 'utf-8', (err, data) => {\r\n    if (err) return res.status(500).send('Error reading file');\r\n    const db = JSON.parse(data);\r\n    db.orderInfo = db.orderInfo.filter(o => o.id !== id);\r\n    fs.writeFile(dbPath, JSON.stringify(db, null, 2), 'utf-8', (err) => {\r\n      if (err) return res.status(500).send('Error writing file');\r\n      res.status(204).send();\r\n    });\r\n  });\r\n});\r\n\r\n// 添加新的 deliveryInfo\r\napp.post('/api/deliveries', (req, res) => {\r\n  const newDelivery = req.body;\r\n\r\n  fs.readFile(dbPath, 'utf-8', (err, data) => {\r\n    if (err) return res.status(500).send('Error reading file');\r\n    const db = JSON.parse(data);\r\n\r\n    // 添加新的 deliveryInfo\r\n    db.deliveryInfo.push(newDelivery);\r\n    fs.writeFile(dbPath, JSON.stringify(db, null, 2), 'utf-8', (err) => {\r\n      if (err) return res.status(500).send('Error writing file');\r\n      res.status(201).json(newDelivery);\r\n    });\r\n  });\r\n});\r\n\r\n// 根据订单ID获取 deliveryInfo\r\napp.get('/api/deliveries/:orderId', (req, res) => {\r\n  const { orderId } = req.params;\r\n  fs.readFile(dbPath, 'utf-8', (err, data) => {\r\n    if (err) return res.status(500).send('Error reading file');\r\n    const db = JSON.parse(data);\r\n    const deliveryInfo = db.deliveryInfo.find(d => d.id === orderId);\r\n    if (!deliveryInfo) return res.status(404).send('Delivery info not found');\r\n    res.json(deliveryInfo);\r\n  });\r\n});\r\n\r\n// 更新 deliveryInfo\r\napp.put('/api/deliveries/:orderId', (req, res) => {\r\n  const { orderId } = req.params;\r\n  const updatedDelivery = req.body;\r\n  fs.readFile(dbPath, 'utf-8', (err, data) => {\r\n    if (err) return res.status(500).send('Error reading file');\r\n    const db = JSON.parse(data);\r\n    const index = db.deliveryInfo.findIndex(d => d.id === orderId);\r\n    if (index === -1) return res.status(404).send('Delivery info not found');\r\n    db.deliveryInfo[index] = { ...db.deliveryInfo[index], ...updatedDelivery };\r\n    fs.writeFile(dbPath, JSON.stringify(db, null, 2), 'utf-8', (err) => {\r\n      if (err) return res.status(500).send('Error writing file');\r\n      res.json(updatedDelivery);\r\n    });\r\n  });\r\n});\r\n\r\napp.get('/api/goods', (req, res) => {\r\n  let { firstClassify } = req.query;\r\n  firstClassify = String(firstClassify); // 将 firstClassify 转换为字符串\r\n  console.log('firstClassify_qwq:', firstClassify); // 打印 firstClassify 的值\r\n  fs.readFile(dbPath, 'utf-8', (err, data) => {\r\n    if (err) return res.status(500).send('Error reading file');\r\n    const db = JSON.parse(data);\r\n    let goods = db.goods;\r\n    console.log('goods.firstClassify:', goods.firstClassify);\r\n    if (firstClassify) {\r\n      goods = goods.filter(g => g.firstClassify === firstClassify);\r\n    }\r\n    res.json(goods);\r\n  });\r\n});\r\n\r\n\r\n// 启动服务器 node server.js\r\napp.listen(PORT, () => {\r\n  console.log(`Server is running on http://localhost:${PORT}`);\r\n});\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server.js b/server.js
+--- a/server.js	(revision ccf01b2ff10e80d635ecaeb4021bbddfce6c525a)
++++ b/server.js	(date 1718093607837)
+@@ -199,7 +199,7 @@
+ app.get('/api/goods', (req, res) => {
+   let { firstClassify } = req.query;
+   firstClassify = String(firstClassify); // 将 firstClassify 转换为字符串
+-  console.log('firstClassify_qwq:', firstClassify); // 打印 firstClassify 的值
++  console.log('firstClassify:', firstClassify); // 打印 firstClassify 的值
+   fs.readFile(dbPath, 'utf-8', (err, data) => {
+     if (err) return res.status(500).send('Error reading file');
+     const db = JSON.parse(data);
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"2d4f2d48-0154-4a23-8a3a-e6a0d52e46f5\" name=\"更改\" comment=\"fix: CategoryPage的显示恢复正常\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/server.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/server.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/services/CategoryService.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/services/CategoryService.js\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"com.intellij.reactbuddy.palette\" />\r\n        <option value=\"com.intellij.reactbuddy.previews\" />\r\n        <option value=\"com.intellij.reactbuddy.index\" />\r\n        <option value=\"com.intellij.reactbuddy.useInitial\" />\r\n        <option value=\"com.intellij.reactbuddy.README\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n    <option name=\"RESET_MODE\" value=\"KEEP\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;IamStarlight&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/IamStarlight/ReactMall.git&quot;,\r\n    &quot;accountId&quot;: &quot;634c02e6-1321-443f-96d3-14472bd1a7e5&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 8\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2heRizUSgNF8jDjthnncgYvdhQf\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,\r\n    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;Node.js.HomePage.jsx.executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;D:/Documents/GitHub&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;ImportCost&quot;,\r\n    &quot;ts.external.directory.path&quot;: &quot;D:\\\\Program Files\\\\JetBrains\\\\WebStorm 2024.1.3\\\\plugins\\\\javascript-plugin\\\\jsLanguageServicesImpl\\\\external&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ReactBuddySettings\">\r\n    <option name=\"extensionsIgnore\" value=\"true\" />\r\n  </component>\r\n  <component name=\"ReactDesignerToolWindowState\">\r\n    <option name=\"myId2Visible\">\r\n      <map>\r\n        <entry key=\"com.intellij.reactbuddy.reactComponents\" value=\"false\" />\r\n        <entry key=\"com.intellij.reactbuddy.reactInspector\" value=\"false\" />\r\n        <entry key=\"com.intellij.reactbuddy.storybook\" value=\"false\" />\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"D:\\Documents\\GitHub\\ReactMall\\src\\components\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.17011.90\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"应用程序级\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"默认任务\">\r\n      <changelist id=\"2d4f2d48-0154-4a23-8a3a-e6a0d52e46f5\" name=\"更改\" comment=\"\" />\r\n      <created>1717952689672</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1717952689672</updated>\r\n      <workItem from=\"1717952692608\" duration=\"6689000\" />\r\n      <workItem from=\"1717959474287\" duration=\"196000\" />\r\n      <workItem from=\"1717959692748\" duration=\"118000\" />\r\n      <workItem from=\"1717959830420\" duration=\"2589000\" />\r\n      <workItem from=\"1717971631590\" duration=\"26231000\" />\r\n      <workItem from=\"1718022035149\" duration=\"7644000\" />\r\n      <workItem from=\"1718072685160\" duration=\"7177000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"feat: home&amp;category&amp;user\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1718028667134</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1718028667134</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"feat: 添加了订单跳转和用户名数据的显示\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1718075783165</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1718075783165</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"fix: CategoryPage的显示恢复正常\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1718077612692</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1718077612692</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"4\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\r\n    <MESSAGE value=\"feat: home&amp;category&amp;user\" />\r\n    <MESSAGE value=\"feat: 添加了订单跳转和用户名数据的显示\" />\r\n    <MESSAGE value=\"fix: CategoryPage的显示恢复正常\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"fix: CategoryPage的显示恢复正常\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <line-breakpoint enabled=\"true\" type=\"javascript\">\r\n          <url>file://$PROJECT_DIR$/src/components/CategoryMenu.jsx</url>\r\n          <line>24</line>\r\n          <option name=\"timeStamp\" value=\"1\" />\r\n        </line-breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision ccf01b2ff10e80d635ecaeb4021bbddfce6c525a)
++++ b/.idea/workspace.xml	(date 1718096587298)
+@@ -4,10 +4,12 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="2d4f2d48-0154-4a23-8a3a-e6a0d52e46f5" name="更改" comment="fix: CategoryPage的显示恢复正常">
++    <list default="true" id="2d4f2d48-0154-4a23-8a3a-e6a0d52e46f5" name="更改" comment="fix: 修复了分类错误的问题">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/services/CategoryService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/CategoryService.js" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/components/HomeItemCard.jsx" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/pages/CategoryPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/CategoryPage.jsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/pages/HomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/HomePage.jsx" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -109,7 +111,7 @@
+       <workItem from="1717959830420" duration="2589000" />
+       <workItem from="1717971631590" duration="26231000" />
+       <workItem from="1718022035149" duration="7644000" />
+-      <workItem from="1718072685160" duration="7177000" />
++      <workItem from="1718072685160" duration="10828000" />
+     </task>
+     <task id="LOCAL-00001" summary="feat: home&amp;category&amp;user">
+       <option name="closed" value="true" />
+@@ -135,7 +137,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1718077612692</updated>
+     </task>
+-    <option name="localTasksCounter" value="4" />
++    <task id="LOCAL-00004" summary="fix: 修复了分类错误的问题">
++      <option name="closed" value="true" />
++      <created>1718080190320</created>
++      <option name="number" value="00004" />
++      <option name="presentableId" value="LOCAL-00004" />
++      <option name="project" value="LOCAL" />
++      <updated>1718080190320</updated>
++    </task>
++    <option name="localTasksCounter" value="5" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -157,7 +167,8 @@
+     <MESSAGE value="feat: home&amp;category&amp;user" />
+     <MESSAGE value="feat: 添加了订单跳转和用户名数据的显示" />
+     <MESSAGE value="fix: CategoryPage的显示恢复正常" />
+-    <option name="LAST_COMMIT_MESSAGE" value="fix: CategoryPage的显示恢复正常" />
++    <MESSAGE value="fix: 修复了分类错误的问题" />
++    <option name="LAST_COMMIT_MESSAGE" value="fix: 修复了分类错误的问题" />
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>

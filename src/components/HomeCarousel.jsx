@@ -1,6 +1,8 @@
 import React from 'react';
 import { Carousel } from 'antd';
-import image from '../images/sample.jpg';
+import img1 from '../static/hot_product_banner.png';
+import img2 from '../static/new_product_banner.png'
+import img3 from '../static/recommend_brand_banner.png'
 
 const contentStyle = {
     height: '250px',
@@ -12,16 +14,13 @@ const contentStyle = {
 const App = () => (
     <Carousel autoplay>
         <div>
-            <img src={image} alt="img1" style={{width:'100%',height:'250px'}} />
+            <img src={img1} alt="img1" style={{width:'100%',height:'250px'}} />
         </div>
         <div>
-            <h3 style={contentStyle}>2</h3>
+            <img src={img2} alt="img1" style={{width: '100%', height: '250px'}}/>
         </div>
         <div>
-            <h3 style={contentStyle}>3</h3>
-        </div>
-        <div>
-            <h3 style={contentStyle}>4</h3>
+            <img src={img3} alt="img1" style={{width: '100%', height: '250px'}}/>
         </div>
     </Carousel>
 );
