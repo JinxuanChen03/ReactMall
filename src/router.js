@@ -12,6 +12,7 @@ import RegisterPage from "./pages/RegisterPage";
 import DeliveryDetailPage from "./pages/DeliveryDetailPage";
 import CategoryPage from "./pages/CategoryPage";
 import UserPage from "./pages/UserPage";
+import CategoryDetail from "./pages/CategoryDetail";
 import OrderUnpaidPage from "./pages/OrderUnpaidPage";
 import OrderReceivePage from "./pages/OrderReceivePage";
 import OrderDonePage from "./pages/OrderDonePage";
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: "pay/:orderId",
         element: <PayPage />
+      },
+      {
+        path: "categoryDetail/:id",
+        element: <CategoryDetail />
       },
       {
         path: "deliverydetail/:orderId",

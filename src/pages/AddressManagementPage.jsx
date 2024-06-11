@@ -1,9 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { List, Button, Modal, Form, Input, message } from 'antd';
+import { List, Button, Modal, Form, Input, message, Card, Typography } from 'antd';
 import { ServiceContext } from '../contexts/ServiceContext';
 import { useNavigate } from 'react-router';
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PlusOutlined, UserOutlined, PhoneOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import TopNavBar from '../components/TopNavBar';
+
+const { Title, Text } = Typography;
 
 const AddressManagementPage = () => {
   const services = useContext(ServiceContext);
@@ -13,10 +15,9 @@ const AddressManagementPage = () => {
   const [currentAddress, setCurrentAddress] = useState(null);
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const userId = services.user.getCurrentUser().id; // 假设用户ID为2，实际应用中应从登录状态或上下文获取
+  const userId = services.user.getCurrentUser().id;
 
   useEffect(() => {
-    // 从 localStorage 获取地址信息
     const loadAddresses = () => {
       try
       {
@@ -37,7 +38,7 @@ const AddressManagementPage = () => {
   const showModal = (address = null) => {
     setCurrentAddress(address);
     setIsModalVisible(true);
-    form.setFieldsValue(address || {}); // 填充表单的值
+    form.setFieldsValue(address || {});
   };
 
   const handleCancel = () => {
@@ -51,16 +52,14 @@ const AddressManagementPage = () => {
       const values = await form.validateFields();
       if (currentAddress)
       {
-        // 更新地址
         services.user.updateLocalAddress(currentAddress.id, values);
         setAddresses(prev => prev.map(addr => (addr.id === currentAddress.id ? { ...addr, ...values } : addr)));
         message.success('地址更新成功');
       } else
       {
-        // 添加新地址
         const newAddress = {
           ...values,
-          id: Date.now(), // 生成唯一的 ID
+          id: Date.now(),
           userId
         };
         services.user.addLocalAddress(newAddress);
@@ -88,34 +87,42 @@ const AddressManagementPage = () => {
   };
 
   const goBack = () => {
-    navigate(-1); // 返回到上一页
+    navigate(-1);
   };
 
   return (
     <>
       <TopNavBar onBack={goBack} title="收货地址管理" />
-      <div className="address-management-container">
-        <Button type="primary" icon={<PlusOutlined />} onClick={() => showModal()} style={{ marginBottom: 16, marginTop: '40px' }}>
+      <div className="address-management-container" style={{ padding: '20px' }}>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => showModal()}
+          style={{ marginBottom: 20, marginTop: 40 }}
+          size="large"
+        >
           新增地址
         </Button>
         <List
           loading={loading}
-          itemLayout="horizontal"
+          itemLayout="vertical"
           dataSource={addresses}
           renderItem={item => (
-            <List.Item
+            <Card
+              key={item.id}
+              style={{ marginBottom: 20 }}
               actions={[
-                <Button icon={<EditOutlined />} onClick={() => showModal(item)}>编辑</Button>,
-                <Button icon={<DeleteOutlined />} onClick={() => handleDelete(item.id)} danger>删除</Button>
+                <Button icon={<EditOutlined />} onClick={() => showModal(item)} type="link" size="small">编辑</Button>,
+                <Button icon={<DeleteOutlined />} onClick={() => handleDelete(item.id)} type="link" size="small" danger>删除</Button>
               ]}
             >
               <List.Item.Meta
-                title={<div>{item.username} - {item.userphone}</div>}
-                description={<div>{item.areaaddress} {item.detailaddress}</div>}
+                title={<div><UserOutlined /> {item.username} - <PhoneOutlined /> {item.userphone}</div>}
+                description={<div><EnvironmentOutlined /> {item.areaaddress} {item.detailaddress}</div>}
               />
-            </List.Item>
+            </Card>
           )}
-          locale={{ emptyText: '没有地址信息，请添加新的地址' }} // 提示用户没有地址信息
+          locale={{ emptyText: '没有地址信息，请添加新的地址' }}
         />
       </div>
       <Modal
@@ -125,20 +132,21 @@ const AddressManagementPage = () => {
         onCancel={handleCancel}
         okText="确认"
         cancelText="取消"
-        width={435} // 设置弹框的宽度为 480px
+        width={435}
+        bodyStyle={{ backgroundColor: '#f0f2f5', borderRadius: '8px', padding: '24px' }}
       >
         <Form form={form} layout="vertical">
           <Form.Item name="username" label="收货人姓名" rules={[{ required: true, message: '请输入收货人姓名' }]}>
-            <Input />
+            <Input prefix={<UserOutlined />} />
           </Form.Item>
           <Form.Item name="userphone" label="联系电话" rules={[{ required: true, message: '请输入联系电话' }]}>
-            <Input />
+            <Input prefix={<PhoneOutlined />} />
           </Form.Item>
           <Form.Item name="areaaddress" label="区域地址" rules={[{ required: true, message: '请输入区域地址' }]}>
-            <Input />
+            <Input prefix={<EnvironmentOutlined />} />
           </Form.Item>
           <Form.Item name="detailaddress" label="详细地址" rules={[{ required: true, message: '请输入详细地址' }]}>
-            <Input />
+            <Input prefix={<EnvironmentOutlined />} />
           </Form.Item>
         </Form>
       </Modal>

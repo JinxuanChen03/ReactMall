@@ -26,14 +26,20 @@ const OrderDetailPage = () => {
       try
       {
         const fetchedOrder = await services.order.getOrderById2(parsedOrderId);
+        console.log(fetchedOrder)
         if (fetchedOrder)
         {
-          setOrder(fetchedOrder);
-          const fetchedGood = await services.good.getGoodById(fetchedOrder.goodId);
-          setGood(fetchedGood);
-          const fetchedUser = await services.user.getCurrentUser(fetchedOrder.userId);
-          setUser(fetchedUser);
-
+          console.log(fetchedOrder.orderNo)
+          const fetchedOrderG = await services.order.getGood(fetchedOrder.orderNo.toString());
+          console.log(fetchedOrderG)
+          if (fetchedOrderG)
+          {
+            setOrder(fetchedOrder);
+            const fetchedGood = await services.good.getGoodById(fetchedOrderG[0].goodId);
+            setGood(fetchedGood);
+            const fetchedUser = await services.user.getCurrentUser(fetchedOrder.userId);
+            setUser(fetchedUser);
+          }
           // 获取指定ID的收货地址
           const fetchedAddress = await services.user.getReceivePersonById(fetchedOrder.rId);
           setAddress(fetchedAddress);
@@ -61,15 +67,15 @@ const OrderDetailPage = () => {
     switch (status)
     {
       case 0:
-        return '未支付';
+        return '待支付';
       case 1:
-        return '已支付';
+        return '待发货';
       case 2:
-        return '发货';
+        return '已发货';
       case 3:
-        return '确认收货';
+        return '已完成';
       default:
-        return '未知状态';
+        return '已关闭';
     }
   };
 
@@ -93,15 +99,15 @@ const OrderDetailPage = () => {
     switch (status)
     {
       case 0:
-        return <CloseCircleOutlined style={{ color: '#ff4d4f', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <CloseCircleOutlined style={{ color: '#FFFFFF', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       case 1:
-        return <CheckCircleOutlined style={{ color: '#40a9ff', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <CheckCircleOutlined style={{ color: '#FFFFFF', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       case 2:
-        return <CarOutlined style={{ color: '#faad14', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <CarOutlined style={{ color: '#FFFFFF', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       case 3:
-        return <SmileOutlined style={{ color: '#52c41a', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
+        return <SmileOutlined style={{ color: '#FFFFFF', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
       default:
-        return null;
+        return <SmileOutlined style={{ color: '#FFFFFF', marginLeft: '10px', marginRight: '10px', fontSize: '20px' }} />;
     }
   };
 

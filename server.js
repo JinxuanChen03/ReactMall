@@ -6,7 +6,8 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const dbPath = path.resolve(__dirname, 'db.json');
+// const dbPath = path.resolve(__dirname, 'C:\\Users\\时\Desktop\\轻量化\\homework\\h4\\shop-back\\db.json');
+const dbPath = 'C:\\Users\\时\\Desktop\\轻量化\\homework\\h4\\shop-back\\db.json';
 
 // 中间件来解析 JSON 请求
 app.use(bodyParser.json());
@@ -221,10 +222,50 @@ app.get('/api/goods', (req, res) => {
     const db = JSON.parse(data);
     let goods = db.goods;
     console.log('goods.firstClassify:', goods.firstClassify);
-    if (firstClassify)
-    {
+    if (firstClassify) {
       goods = goods.filter(g => g.firstClassify === firstClassify);
     }
+    res.json(goods);
+  });
+});
+
+// 获取一级菜单
+app.get('/api/firstClassify', (req, res) => {
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    res.json(db.firstClassify);
+  });
+});
+
+
+// 获取二级菜单
+app.get('/api/secondClassify/:id', (req, res) => {
+  const { id } = req.params;
+  console.log('firstClassify:', id); // 打印 firstClassify 的值
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    let secondClassify = db.secondClassify;
+    if (id) {
+      secondClassify = secondClassify.filter(s => s.lastGrade === id);
+    }
+    console.log('secondClassify:', secondClassify);
+    res.json(secondClassify);
+  });
+});
+
+// 获取二级菜单对应的商品详情
+app.get('/api/classifyProduct/:categoryId', (req, res) => {
+  const { categoryId } = req.params;
+  console.log('categoryId:', categoryId); // 打印 categoryId 的值
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    let goods = db.goods;
+    if (categoryId) {
+      goods = goods.filter(g => String(g.secondClassify) === categoryId);
+    };
     res.json(goods);
   });
 });
@@ -249,8 +290,7 @@ app.get('/api/receivePerson/address/:id', (req, res) => {
     if (err) return res.status(500).send('Error reading file');
     const db = JSON.parse(data);
     const address = db.receivePerson.find(addr => addr.id === id);
-    if (!address)
-    {
+    if (!address) {
       return res.status(404).send('Address not found');
     }
     res.json(address);
@@ -330,6 +370,29 @@ app.post('/api/orderGoods', (req, res) => {
   });
 });
 
+// 根据 orderNum 查询 orderGood
+app.get('/api/orderGoods', (req, res) => {
+  const orderNum = req.query.orderNum;
+
+  if (!orderNum)
+  {
+    return res.status(400).send('orderNum is required');
+  }
+
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    console.log(orderNum)
+    // 查找匹配的 orderGood
+    const orderGoods = db.orderGood.filter(orderGood => orderGood.orderNum === orderNum);
+    console.log(orderGoods)
+    if (orderGoods.length === 0)
+    {
+      return res.status(404).send('No orderGoods found with the given orderNum');
+    }
+    res.status(200).json(orderGoods);
+  });
+});
 
 
 

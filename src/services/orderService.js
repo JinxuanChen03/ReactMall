@@ -205,6 +205,30 @@ class OrderService {
     }
   }
 
+  // 根据 orderNum 获取所有关联的 orderGood
+  async getGood (orderNum) {
+    try
+    {
+      // 发起 GET 请求以获取与 orderNum 关联的所有 orderGood
+      const orderGoodsResponse = await axios.get('/api/orderGoods', {
+        params: { orderNum }
+      });
+
+      // 确保从响应中提取 data 属性
+      const orderGoods = orderGoodsResponse.data;
+
+      // 打印 orderGoods 以检查结果
+      console.log(orderGoods);
+
+      // 返回获取的 orderGoods
+      return orderGoods;
+    } catch (error)
+    {
+      console.error('Error fetching order goods:', error);
+      throw error;
+    }
+  }
+
   async payOrder (orderId, type) {
     try
     {
@@ -318,7 +342,19 @@ class OrderService {
       return [];
     }
   }
-
+  async deleteOrder(orderId) {
+    try {
+      // 发送 DELETE 请求到服务器以删除订单
+      await axios.delete(`${this.baseUrl}/${orderId}`);
+      // 从本地订单列表中删除
+      this.list = this.list.filter(order => order.id !== orderId);
+      return true;
+    } catch (error) {
+      console.error(`Error deleting order with ID ${orderId}:`, error);
+      return false;
+    }
+  }
+  
   async _loadData () {
     try
     {
@@ -374,10 +410,10 @@ class OrderService {
     switch (status)
     {
       case '待付款': return 0;
-      case '已支付': return 1;
-      case '发货': return 2;
-      case '确认收货': return 3;
-      case '退款': return 4;
+      case '待发货': return 1;
+      case '已发货': return 2;
+      case '已完成': return 3;
+      case '已关闭': return 4;
       case '微信支付': return 1;
       case '支付宝': return 1;
       default: return 0; // 默认状态为 0（待付款）
@@ -389,10 +425,10 @@ class OrderService {
     switch (status)
     {
       case 0: return '待付款';
-      case 1: return '已支付';
-      case 2: return '发货';
-      case 3: return '确认收货';
-      case 4: return '退款';
+      case 1: return '待发货';
+      case 2: return '已发货';
+      case 3: return '已完成';
+      case 4: return '已关闭';
       case 5: return '微信支付';
       case 6: return '支付宝';
       default: return '待付款'; // 默认状态为 '待付款'
