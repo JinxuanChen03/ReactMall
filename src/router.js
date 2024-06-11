@@ -12,6 +12,7 @@ import RegisterPage from "./pages/RegisterPage";
 import DeliveryDetailPage from "./pages/DeliveryDetailPage";
 import CategoryPage from "./pages/CategoryPage";
 import UserPage from "./pages/UserPage";
+import CategoryDetail from "./pages/CategoryDetail";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "pay/:orderId",
         element: <PayPage />
+      },
+      {
+        path: "categoryDetail/:id",
+        element: <CategoryDetail />
       },
       {
         path: "deliverydetail/:orderId",

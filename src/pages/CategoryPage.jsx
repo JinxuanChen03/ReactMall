@@ -1,66 +1,62 @@
-import React, {useState, useEffect, useContext} from 'react';
-import CategoryMenu from '../components/CategoryMenu';
 import BottomNav from '../components/BottomNav';
-import {Breadcrumb, Card, Layout, Menu, message, theme} from 'antd';
-import service from '../services/CategoryService';
-import {AccountBookOutlined, CarOutlined, FileDoneOutlined, MoneyCollectOutlined} from "@ant-design/icons";
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Switch, useHistory, useParams, useNavigate } from 'react-router-dom';
+import { Menu, Tabs, Layout, Card, List } from 'antd';
+import { fetchFirstClassify, fetchSecondClassify, fetchProductDetails } from '../services/ClassifyService';
 
-const gridStyle = {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-};
+const { Sider, Content } = Layout;
+const { TabPane } = Tabs;
+const { Meta } = Card;
+
 
 const CategoryPage = () => {
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [goods, setGoods] = useState([]);
-    const [loading, setLoading] = useState(false);
 
-    const handleSelectCategory = (key) => {
-        console.log('Selected category:', key);
-        setSelectedCategory(key);
+    const [firstClassify, setFirstClassify] = useState([]);
+    const [secondClassify, setSecondClassify] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        fetchFirstClassify().then(response => setFirstClassify(response.data));
+    }, []);
+
+    const handleMenuClick = ({ key }) => {
+        fetchSecondClassify(key).then(response => setSecondClassify(response.data));
     };
 
-    //钩子函数
-    useEffect(() => {
-        const fetchGoodsByClassify = async () => {
-            if (!selectedCategory) return;
-            setLoading(true);
-            try {
-                const goodsData = await service.good.getGoodsByClassify(selectedCategory); // 获取某一类别的商品
-                console.log('获取的商品数据:', goodsData);
-                setGoods(goodsData);
-            } catch (error) {
-                console.error('获取商品数据时出错:', error);
-                message.error('加载商品数据时出错');
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchGoodsByClassify();
-    }, [selectedCategory]);
+    const handleCardClick = (id) => {
+        navigate(`/categoryDetail/${id}`);
+    };
 
     return (
         <div className="scrollable-content" style={{ display: 'flex', flexDirection: 'row' }}>
-            <CategoryMenu onSelect={handleSelectCategory} style={{ flex: 1 }} />
-            <div style={{ flex: 2 }}>
-                {loading ? (
-                    <p>加载中...</p>
-                ) : (
-                    <Card>
-                        {goods.map((item) => (
-                            <Card.Grid style={gridStyle} key={item.id}>
-                                <p>名称: {item.name}</p>
-                                <p>品牌: {item.brand}</p>
-                                <p>价格: {item.price}</p>
-                                <p>库存: {item.stock}</p>
-                            </Card.Grid>
+            {/* <CategoryMenu onSelect={handleSelectCategory} style={{ flex: 1 }} /> */}
+            <Layout>
+                <Sider>
+                    <Menu mode="inline" onClick={handleMenuClick}>
+                        {firstClassify.map(item => (
+                            <Menu.Item key={item.id}>
+                                {item.classifyname}
+                            </Menu.Item>
                         ))}
-                    </Card>
-                )}
-            </div>
+                    </Menu>
+                </Sider>
+                <Layout>
+                    <Content>
+                        <div className="category-content">
+                            {secondClassify.map(item => (
+                                <Card
+                                    key={item.id}
+                                    hoverable
+                                    cover={<img alt={item.classifyname} src={item.image} />}
+                                    onClick={() => handleCardClick(item.id)}
+                                >
+                                    <Meta title={item.classifyname} />
+                                </Card>
+                            ))}
+                        </div>
+                    </Content>
+                </Layout>
+            </Layout>
             <BottomNav style={{ flex: 0.2 }} />
         </div>
     );

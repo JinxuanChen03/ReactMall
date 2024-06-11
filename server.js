@@ -6,7 +6,8 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const dbPath = path.resolve(__dirname, 'db.json');
+// const dbPath = path.resolve(__dirname, 'C:\\Users\\时\Desktop\\轻量化\\homework\\h4\\shop-back\\db.json');
+const dbPath = 'C:\\Users\\时\\Desktop\\轻量化\\homework\\h4\\shop-back\\db.json';
 
 // 中间件来解析 JSON 请求
 app.use(bodyParser.json());
@@ -208,6 +209,47 @@ app.get('/api/goods', (req, res) => {
     if (firstClassify) {
       goods = goods.filter(g => g.firstClassify === firstClassify);
     }
+    res.json(goods);
+  });
+});
+
+// 获取一级菜单
+app.get('/api/firstClassify', (req, res) => {
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    res.json(db.firstClassify);
+  });
+});
+
+
+// 获取二级菜单
+app.get('/api/secondClassify/:id', (req, res) => {
+  const { id } = req.params;
+  console.log('firstClassify:', id); // 打印 firstClassify 的值
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    let secondClassify = db.secondClassify;
+    if (id) {
+      secondClassify = secondClassify.filter(s => s.lastGrade === id);
+    }
+    console.log('secondClassify:', secondClassify);
+    res.json(secondClassify);
+  });
+});
+
+// 获取二级菜单对应的商品详情
+app.get('/api/classifyProduct/:categoryId', (req, res) => {
+  const { categoryId } = req.params;
+  console.log('categoryId:', categoryId); // 打印 categoryId 的值
+  fs.readFile(dbPath, 'utf-8', (err, data) => {
+    if (err) return res.status(500).send('Error reading file');
+    const db = JSON.parse(data);
+    let goods = db.goods;
+    if (categoryId) {
+      goods = goods.filter(g => String(g.secondClassify) === categoryId);
+    };
     res.json(goods);
   });
 });

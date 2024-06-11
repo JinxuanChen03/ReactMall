@@ -14,7 +14,7 @@ const ServiceProvider = ({ children }) => {
     good: goodService,
     order: orderService,
     cart: cartService,
-    user: userService
+    user: userService,
   }
   return (
     <ServiceContext.Provider value={value}>
